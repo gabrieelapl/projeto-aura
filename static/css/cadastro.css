@@ -88,14 +88,14 @@ form {
   width: 750px;
 }
 
-.titulo-login {
+.titulo-cadastro {
   font-family: "Tommy-Medium";
   font-size: 26px;
   color: #262626;
   text-align: center;
 }
 
-.subtitulo-login {
+.subtitulo-cadastro {
   font-family: "Tommy-Light";
   font-size: 16px;
   color: #26262699;
@@ -103,7 +103,8 @@ form {
 }
 
 .label-email, 
-.label-senha {
+.label-senha,
+.label-nome {
   font-family: "Tommy-Light";
   font-size: 16px;
   color: #2626266c;
@@ -114,10 +115,8 @@ form {
   margin-top: 5%;
 }
 
-.label-senha{
-  margin-top: 4%;
-}
 
+input[type="nome"],
 input[type="email"],
 input[type="password"] {
   padding: 10px;
@@ -136,7 +135,7 @@ input[type="password"] {
   color: #26262649;
 }
 
-.btn-login {
+.btn-cadastro {
   display: inline-block;
   padding: 0.7rem;
   border-radius: 50px;
@@ -156,7 +155,7 @@ input[type="password"] {
     background 0.25s ease;
 }
 
-.btn-login:hover {
+.btn-cadastro:hover {
   transform: translateY(-2px);
   background-color: #8ecf5e;
   box-shadow: 0px 10px 21px 5px #0000001a;
@@ -195,7 +194,7 @@ input[type="password"] {
   border-color: #bf93fd;
 }
 
-.erro-login {
+.erro-cadastro {
   color: red;
   font-size: 14px;
   min-height: 20px;
@@ -225,11 +224,11 @@ input[type="password"] {
     width: 40%;
   }
 
-  .titulo-login {
+  .titulo-cadastro {
     font-size: 24px;
   }
 
-  .subtitulo-login {
+  .subtitulo-cadastro {
     font-size: 14px;
   }
 }
@@ -249,11 +248,11 @@ input[type="password"] {
     width: 50%;
   }
 
-  .titulo-login {
+  .titulo-cadastro {
     font-size: 22px;
   }
 
-  .subtitulo-login {
+  .subtitulo-cadastro {
     font-size: 13px;
   }
 
@@ -278,11 +277,11 @@ input[type="password"] {
     width: 70%;
   }
 
-  .titulo-login {
+  .titulo-cadastro {
     font-size: 20px;
   }
 
-  .subtitulo-login {
+  .subtitulo-cadastro {
     font-size: 12px;
   }
 }

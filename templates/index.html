@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AURA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" />
 </head>
+
 <body>
 
-<!-- Navbar -->
-<header class="navbar">
-  <div class="navbar__container">
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar__container">
 
-    <a href="#" class="navbar__logo">
-    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AURA" class="navbar__logo-img"/>
-    </a>
+      <a href="#" class="navbar__logo">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="AURA" class="navbar__logo-img" />
+      </a>
 
-    <nav class="navbar__nav" id="nav-menu">
-      <a href="#projetos" class="navbar__link">Projetos</a>
-      <a href="#sobre-aura" class="navbar__link">Sobre</a>
-      <a href="#sobre-nos" class="navbar__link">Equipe</a>
-      <a href="#contato" class="navbar__link">Contato</a>
-      <a href="#" class="navbar__link">Perfil</a>
-    </nav>
+      <nav class="navbar__nav" id="nav-menu">
+        <a href="#projetos" class="navbar__link">Projetos</a>
+        <a href="#sobre-aura" class="navbar__link">Sobre</a>
+        <a href="#sobre-nos" class="navbar__link">Equipe</a>
+        <a href="#contato" class="navbar__link">Contato</a>
+        <a href="#" class="navbar__link">Perfil</a>
+      </nav>
 
-    <a href="{{ url_for('login') }}" class="navbar__btn-login">Login</a>
+      <a href="{{ url_for('login') }}" class="navbar__btn-login">Login</a>
 
-    <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menu">
-      <span></span><span></span><span></span>
-    </button>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Abrir menu">
+        <span></span><span></span><span></span>
+      </button>
 
-  </div>
-</header>
+    </div>
+  </header>
 
 
-<!-- Hero -->
+  <!-- Hero -->
   <section class="hero">
     <div class="hero__container">
 
@@ -43,33 +45,29 @@
           Transformando
         </h1>
         <h4 class="hero__title--light">
-            sua pesquisa acadêmica com inteligência e inovação.
+          sua pesquisa acadêmica com inteligência e inovação.
         </h4>
         <p class="hero__subtitle">
-          Facilitando a análise científica, a organização de<br class="hero__br"/>
+          Facilitando a análise científica, a organização de<br class="hero__br" />
           artigos e o aprendizado eficiente.
         </p>
-        <a href="/cadastro" class="btn btn--verde">Cadastre-se</a>
+        <a href="{{ url_for('cadastro') }}" class="btn btn--verde">Cadastre-se</a>
       </div>
 
     </div>
 
     <div class="hero__illustration" aria-hidden="true">
-      <img
-        src="{{ url_for('static', filename='img/banner.png') }}"
-        alt="Ilustração AURA"
-        class="hero__banner"
-      />
+      <img src="{{ url_for('static', filename='img/banner.png') }}" alt="Ilustração AURA" class="hero__banner" />
     </div>
 
     <div class="hero_background" aria-hidden="true">
-        <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#9857f2"/>
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#9857f2" />
       </svg>
     </div>
   </section>
 
 
-<!-- upload -->
+  <!-- upload -->
   <section class="upload" id="upload">
     <div class="upload__container">
       <p class="upload__headline">
@@ -79,24 +77,26 @@
       <div class="upload__card">
 
         <div class="upload__file-tag">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9857f2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9857f2" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
           </svg>
           <span>artigo_cientifico.pdf <em>(2.1MB)</em></span>
           <button class="upload__file-remove" aria-label="Remover arquivo">×</button>
         </div>
 
-          
+
         <div class="upload__project-options">
           <label class="upload__option">
-            <input type="radio" name="projeto" value="existente"/>
+            <input type="radio" name="projeto" value="existente" />
             <span class="upload__option-box">
               <strong>Projeto Existente</strong>
               <small>Adicionar a um projeto</small>
             </span>
           </label>
           <label class="upload__option upload__option--selected">
-            <input type="radio" name="projeto" value="novo" checked/>
+            <input type="radio" name="projeto" value="novo" checked />
             <span class="upload__option-box">
               <strong>Novo Projeto</strong>
               <small>Comece do zero</small>
@@ -115,7 +115,7 @@
   </section>
 
 
-<!-- projetos -->
+  <!-- projetos -->
   <section class="projetos" id="projetos">
     <div class="projetos__container">
       <h2 class="section-title">Seus Projetos</h2>
@@ -187,92 +187,100 @@
   </section>
 
 
-<!-- sobre aura -->
-<section class="sobre-aura" id="sobre">
-  <div class="sobre-aura__container">
-    <h2 class="titulo section-title" id="sobre">Sobre o AURA</h2>
-    <div class="cards-sobreAura">
+  <!-- sobre aura -->
+  <section class="sobre-aura" id="sobre">
+    <div class="sobre-aura__container">
+      <h2 class="titulo section-title" id="sobre">Sobre o AURA</h2>
+      <div class="cards-sobreAura">
 
-      <div class="card-sobreAura">
-        <img src="../static/img/inteligencia_artificial.png" alt="Inteligência Artificial">
-        <h3>Inteligência Artificial</h3>
-        <p>IA gera glossário, resumos e perguntas para facilitar leitura e compreensão.</p>
+        <div class="card-sobreAura">
+          <img src="../static/img/inteligencia_artificial.png" alt="Inteligência Artificial">
+          <h3>Inteligência Artificial</h3>
+          <p>IA gera glossário, resumos e perguntas para facilitar leitura e compreensão.</p>
+        </div>
+
+        <div class="card-sobreAura">
+          <img src="../static/img/educacao.png" alt="Educação">
+          <h3>Educação</h3>
+          <p>Plataforma ajuda universitários a entender artigos e termos acadêmicos.</p>
+        </div>
+
+        <div class="card-sobreAura">
+          <img src="../static/img/igualdade.png" alt="Igualdade">
+          <h3>Igualdade</h3>
+          <p>Projeto promove inclusão e educação de qualidade, reduzindo desigualdades.</p>
+        </div>
+
       </div>
-
-      <div class="card-sobreAura">
-        <img src="../static/img/educacao.png" alt="Educação">
-        <h3>Educação</h3>
-        <p>Plataforma ajuda universitários a entender artigos e termos acadêmicos.</p>
-      </div>
-
-      <div class="card-sobreAura">
-        <img src="../static/img/igualdade.png" alt="Igualdade">
-        <h3>Igualdade</h3>
-        <p>Projeto promove inclusão e educação de qualidade, reduzindo desigualdades.</p>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- sobre nós -->
-<section class="sobre-nos" id="sobre-nos">
-  <div class="sobre-nos__container">
+  <!-- sobre nós -->
+  <section class="sobre-nos" id="sobre-nos">
+    <div class="sobre-nos__container">
 
-    <div class="sobre-nos__heading">
-      <img src="../static/img/diagrama.png" alt="">
-      <h2 class="titulo-sobre-nos">Sobre nós</h2>
+      <div class="sobre-nos__heading">
+        <img src="../static/img/diagrama.png" alt="">
+        <h2 class="titulo-sobre-nos">Sobre nós</h2>
+      </div>
+
+      <p class="sobre-nos-texto">Somos uma equipe de alunos da FATEC Registro que compartilha a paixão
+        por transformar a pesquisa acadêmica em soluções tecnológicas que promovem o avanço da educação. Acreditamos
+        que inovação e conhecimento devem caminhar juntos para gerar impacto real na vida das pessoas.</p>
+
+      <div class="equipe__grid">
+
+        <div class="card-equipe" style="background-image: url('../static/img/bia.png');">
+          <h5 class="texto-nome">Beatriz Egen</h5>
+          <div class="overlay">
+            <img class="card-img" src="../static/img/lapis.png" alt="">
+            <h5>Beatriz Egen</h5>
+            <p>Responsável por desenvolver e estruturar toda a lógica do sistema, garantindo que cada funcionalidade
+              funcione de forma eficiente e segura. Atua na integração de bancos de dados, APIs, regras de negócio e
+              desempenho do servidor.</p>
+          </div>
+        </div>
+
+        <div class="card-equipe" style="background-image: url('../static/img/pedro.png');">
+          <h5 class="texto-nome">Pedro Dutra</h5>
+          <div class="overlay">
+            <img class="card-img" src="../static/img/lapis.png" alt="">
+            <h5>Pedro Dutra</h5>
+            <p>Responsável por planejar, detalhar e implementar os casos de uso do projeto, garantindo clareza,
+              funcionalidade e integração entre Diário de Bordo, Canvas e redes. Atua na documentação, testes e suporte
+              às funcionalidades da plataforma.</p>
+          </div>
+        </div>
+
+        <div class="card-equipe" style="background-image: url('../static/img/ana.png');">
+          <h5 class="texto-nome">Ana Flávia Guimarães</h5>
+          <div class="overlay">
+            <img class="card-img" src="../static/img/lapis.png" alt="">
+            <h5>Ana Flávia Guimarães</h5>
+            <p>Responsável por elaborar, revisar e organizar o conteúdo científico do projeto, garantindo clareza,
+              coerência e precisão nas informações, além de adequação às normas acadêmicas e padronização exigida para
+              publicação.</p>
+          </div>
+        </div>
+
+        <div class="card-equipe" style="background-image: url('../static/img/gabi.png');">
+          <h5 class="texto-nome">Gabriela Lino</h5>
+          <div class="overlay">
+            <img class="card-img" src="../static/img/lapis.png" alt="">
+            <h5>Gabriela Lino</h5>
+            <p>Responsável pela criação e implementação da interface visual do sistema, transformando designs em
+              elementos interativos. Atua na experiência do usuário, responsividade e testes para garantir a
+              navegabilidade e a estética do projeto.</p>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <p class="sobre-nos-texto">Somos uma equipe de alunos da FATEC Registro que compartilha a paixão
-      por transformar a pesquisa acadêmica em soluções tecnológicas que promovem o avanço da educação. Acreditamos
-      que inovação e conhecimento devem caminhar juntos para gerar impacto real na vida das pessoas.</p>
-
-    <div class="equipe__grid">
-
-      <div class="card-equipe" style="background-image: url('../static/img/bia.png');">
-        <h5 class="texto-nome">Beatriz Egen</h5>
-        <div class="overlay">
-          <img class="card-img" src="../static/img/lapis.png" alt="">
-          <h5>Beatriz Egen</h5>
-          <p>Responsável por desenvolver e estruturar toda a lógica do sistema, garantindo que cada funcionalidade funcione de forma eficiente e segura. Atua na integração de bancos de dados, APIs, regras de negócio e desempenho do servidor.</p>
-        </div>
-      </div>
-
-      <div class="card-equipe" style="background-image: url('../static/img/pedro.png');">
-        <h5 class="texto-nome">Pedro Dutra</h5>
-        <div class="overlay">
-          <img class="card-img" src="../static/img/lapis.png" alt="">
-          <h5>Pedro Dutra</h5>
-          <p>Responsável por planejar, detalhar e implementar os casos de uso do projeto, garantindo clareza, funcionalidade e integração entre Diário de Bordo, Canvas e redes. Atua na documentação, testes e suporte às funcionalidades da plataforma.</p>
-        </div>
-      </div>
-
-      <div class="card-equipe" style="background-image: url('../static/img/ana.png');">
-        <h5 class="texto-nome">Ana Flávia Guimarães</h5>
-        <div class="overlay">
-          <img class="card-img" src="../static/img/lapis.png" alt="">
-          <h5>Ana Flávia Guimarães</h5>
-          <p>Responsável por elaborar, revisar e organizar o conteúdo científico do projeto, garantindo clareza, coerência e precisão nas informações, além de adequação às normas acadêmicas e padronização exigida para publicação.</p>
-        </div>
-      </div>
-
-      <div class="card-equipe" style="background-image: url('../static/img/gabi.png');">
-        <h5 class="texto-nome">Gabriela Lino</h5>
-        <div class="overlay">
-          <img class="card-img" src="../static/img/lapis.png" alt="">
-          <h5>Gabriela Lino</h5>
-          <p>Responsável pela criação e implementação da interface visual do sistema, transformando designs em elementos interativos. Atua na experiência do usuário, responsividade e testes para garantir a navegabilidade e a estética do projeto.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+  </section>
 
 
- <!-- footer -->
+  <!-- footer -->
   <footer class="footer" id="contato">
     <div class="footer__container">
 
@@ -282,9 +290,10 @@
 
         <div class="footer__contato-item">
           <div class="footer__icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <polyline points="2,4 12,13 22,4"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <polyline points="2,4 12,13 22,4" />
             </svg>
           </div>
           <span>contato@fatec-sp.gov.br</span>
@@ -292,8 +301,10 @@
 
         <div class="footer__contato-item">
           <div class="footer__icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
           </div>
           <span>(13) 3822-2025</span>
@@ -301,9 +312,10 @@
 
         <div class="footer__contato-item">
           <div class="footer__icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#98d96a" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
             </svg>
           </div>
           <span>FATEC Registro, São Paulo, Brasil</span>
@@ -321,9 +333,9 @@
 
 
   <script>
-  //  menu
+    //  menu
     const hamburger = document.getElementById('hamburger');
-    const navMenu   = document.getElementById('nav-menu');
+    const navMenu = document.getElementById('nav-menu');
     hamburger.addEventListener('click', () => {
       navMenu.classList.toggle('navbar__nav--open');
       hamburger.classList.toggle('navbar__hamburger--active');
@@ -362,4 +374,5 @@
   </script>
 
 </body>
+
 </html>

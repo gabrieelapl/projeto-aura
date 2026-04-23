@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" />
+</head>
+
+<body>
+  <a href="javascript:history.back()" class="back-arrow"></a>
+
+  <div class="elipse1"></div>
+  <div class="elipse2"></div>
+  <div class="elipse3"></div>
+
+  <!-- Formulário de cadastro -->
+  <form method="POST" action="/cadastro">
+    <h1 class="titulo-cadastro">Cadastre-se</h1>
+    <p class="subtitulo-cadastro">Participe e expanda seu conhecimento!</p>
+
+    {% if erro %}
+    <div class="erro-cadastro">{{ erro }}</div>
+    {% else %}
+    <div class="erro-cadastro">&nbsp;</div>
+    {% endif %}
+
+    <label class="label-nome">Nome:</label><br />
+    <input type="nome" name="nome" placeholder="Digite aqui o seu nome" required />
+
+    <label class="label-email">Email:</label><br />
+    <input type="email" name="email" placeholder="Digite aqui o seu email" required />
+
+    <label class="label-senha">Senha:</label><br />
+    <input type="password" name="senha" placeholder="Digite aqui a sua senha" required />
+
+    <button class="btn-cadastro">Cadastre-se</button>
+
+    <p class="txt-cadastro">
+      Já tem login? <a href="/login">Entre agora!</a>
+    </p>
+  </form>
+</body>
+
+</html>
