@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA – Perfil</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="perfil-page">
+
+    <section class="perfil-card perfil-card--header">
+      <div class="perfil-avatar">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#e0e0e0"/>
+          <circle cx="40" cy="30" r="14" fill="#b0b0b0"/>
+          <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0"/>
+        </svg>
+      </div>
+      <div class="perfil-header__info">
+        <h1 class="perfil-nome">{{ session.get('nome', 'Usuário') }}</h1>
+        <p class="perfil-email">{{ session.get('usuario', 'email@exemplo.com') }}</p>
+        <button class="btn-perfil btn-perfil--verde" id="btn-editar">Editar perfil</button>
+      </div>
+    </section>
+
+    <section class="perfil-card perfil-card--info">
+      <h2 class="perfil-info__titulo">Informações da conta</h2>
+      <p class="perfil-info__sub">Gerencie os detalhes e a segurança da sua conta</p>
+
+      <div class="perfil-info__campos">
+        <div class="perfil-campo">
+          <span class="perfil-campo__label">Nome completo</span>
+          <span class="perfil-campo__valor">{{ session.get('nome', 'Usuário') }}</span>
+        </div>
+        <div class="perfil-campo">
+          <span class="perfil-campo__label">E-mail</span>
+          <span class="perfil-campo__valor">{{ session.get('usuario', 'email@exemplo.com') }}</span>
+        </div>
+        <div class="perfil-campo">
+          <span class="perfil-campo__label">Membro desde</span>
+          <span class="perfil-campo__valor">{{ session.get('membro_desde', '01 de janeiro de 2025') }}</span>
+        </div>
+      </div>
+
+      <div class="perfil-info__acoes">
+        <button class="btn-perfil btn-perfil--vermelho" id="btn-excluir">Excluir conta</button>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="modal-overlay" id="modal-excluir">
+    <div class="modal">
+      <h3 class="modal__titulo modal__titulo--vermelho">Excluir conta</h3>
+      <p class="modal__texto">Tem certeza que deseja excluir sua conta? Esta ação é irreversível.</p>
+      <div class="modal__acoes">
+        <button type="button" class="btn-perfil btn-perfil--cinza" id="btn-cancelar-excluir">Cancelar</button>
+        <a href="/excluir-conta" class="btn-perfil btn-perfil--vermelho">Sim, excluir</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Editar perfil 
+    document.getElementById('btn-editar').addEventListener('click', () => {
+      alert('Funcionalidade em desenvolvimento!');
+    });
+
+    // Modal excluir conta
+    const modalExcluir = document.getElementById('modal-excluir');
+    const btnExcluir   = document.getElementById('btn-excluir');
+    const btnCancelarE = document.getElementById('btn-cancelar-excluir');
+
+    btnExcluir.addEventListener('click', () => modalExcluir.classList.add('modal-overlay--ativo'));
+    btnCancelarE.addEventListener('click', () => modalExcluir.classList.remove('modal-overlay--ativo'));
+    modalExcluir.addEventListener('click', (e) => {
+      if (e.target === modalExcluir) modalExcluir.classList.remove('modal-overlay--ativo');
+    });
+  </script>
+
+</body>
+</html>
