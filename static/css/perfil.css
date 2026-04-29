@@ -1,5 +1,3 @@
-
-
 @font-face { font-family: "Adam-Bold";     src: url(../font/Adam-Bold.ttf); }
 @font-face { font-family: "Adam-Light";    src: url(../font/Adam-Light.ttf); }
 @font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
@@ -24,9 +22,21 @@
 
 body {
   background-color: var(--branco);
-  font-family: "Tommy-Regular", sans-serif;
+  font-family: "Tommy-Regular";
   color: var(--preto);
   min-height: 100vh;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--branco);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #d0c8e0;
+  border-radius: 20px;
+  border: 2px solid #dcdcdc;
 }
 
 .back-arrow {
@@ -35,7 +45,6 @@ body {
   left: 24px;
   width: 38px;
   height: 38px;
-  background: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -46,7 +55,6 @@ body {
   transition: background var(--transition), transform var(--transition);
 }
 .back-arrow:hover {
-  background: var(--branco);
   transform: translateX(-2px);
 }
 
@@ -64,6 +72,7 @@ body {
   border-radius: var(--radius);
   padding: 2rem 2.5rem;
   box-shadow: var(--sombra);
+    border: solid 1px #26262623;  
 }
 
 .perfil-card--header {
@@ -88,30 +97,30 @@ body {
 }
 
 .perfil-nome {
-  font-family: "Tommy-Bold", sans-serif;
+  font-family: "Tommy-Bold";
   font-size: clamp(1.3rem, 3vw, 1.7rem);
   color: var(--roxo_escuro);
   line-height: 1.2;
 }
 
 .perfil-email {
-  font-family: "Tommy-Light", sans-serif;
+  font-family: "Tommy-Light";
   font-size: 0.92rem;
-  color: #888;
+  color: var(--preto);
   margin-bottom: 0.5rem;
 }
 
 .perfil-info__titulo {
-  font-family: "Tommy-Bold", sans-serif;
+  font-family: "Tommy-Bold";
   font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   color: var(--roxo_escuro);
   margin-bottom: 0.3rem;
 }
 
 .perfil-info__sub {
-  font-family: "Tommy-Light", sans-serif;
+  font-family: "Tommy-Light";
   font-size: 0.9rem;
-  color: #888;
+  color: var(--preto);
   margin-bottom: 1.8rem;
 }
 
@@ -129,13 +138,13 @@ body {
 }
 
 .perfil-campo__label {
-  font-family: "Tommy-Light", sans-serif;
+  font-family: "Tommy-Light";
   font-size: 0.82rem;
-  color: #aaa;
+  color: var(--preto);
 }
 
 .perfil-campo__valor {
-  font-family: "Tommy-Bold", sans-serif;
+  font-family: "Tommy-Medium";
   font-size: 0.97rem;
   color: var(--preto);
 }
@@ -152,7 +161,7 @@ body {
   justify-content: center;
   padding: 0.55rem 1.4rem;
   border-radius: 50px;
-  font-family: "Tommy-Medium", sans-serif;
+  font-family: "Tommy-Medium";;
   font-size: 0.88rem;
   cursor: pointer;
   border: none;
@@ -163,22 +172,22 @@ body {
 
 .btn-perfil--verde {
   background-color: var(--verde);
-  color: var(--preto);
-  box-shadow: 0 4px 14px rgba(152, 217, 106, 0.35);
+  color: var(--branco);
+  box-shadow: 0px 10px 21px 5px #0000001a;
 }
 .btn-perfil--verde:hover {
   background-color: #8ecf5e;
-  box-shadow: 0 6px 18px rgba(152, 217, 106, 0.5);
+  box-shadow: 0px 10px 21px 5px #0000001a;
 }
 
 .btn-perfil--vermelho {
   background-color: var(--vermelho);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(242, 87, 87, 0.3);
+  box-shadow: 0px 10px 21px 5px #0000001a;
 }
 .btn-perfil--vermelho:hover {
-  background-color: #e04040;
-  box-shadow: 0 6px 18px rgba(242, 87, 87, 0.45);
+  background-color: #EF4444;
+  box-shadow: 0px 10px 21px 5px #0000001a;
 }
 
 .btn-perfil--cinza {

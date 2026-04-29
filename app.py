@@ -71,5 +71,16 @@ def perfil():
     if 'usuario' not in session:
         return redirect(url_for('login'))
     return render_template('perfil.html')
+
+#rota para editar o perfil do usuário
+@app.route('/editarPerfil')
+def editarPerfil():
+    return render_template('editarPerfil.html')
+
+#rota para alterar a senha da conta
+@app.route('/alterarSenha')
+def alterarSenha():
+    return render_template('alterarSenha.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

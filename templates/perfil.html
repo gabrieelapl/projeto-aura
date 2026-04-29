@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AURA – Perfil</title>
+  <title>AURA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}"/>
 </head>
 <body>
@@ -27,7 +27,7 @@
       <div class="perfil-header__info">
         <h1 class="perfil-nome">{{ session.get('nome', 'Usuário') }}</h1>
         <p class="perfil-email">{{ session.get('usuario', 'email@exemplo.com') }}</p>
-        <button class="btn-perfil btn-perfil--verde" id="btn-editar">Editar perfil</button>
+        <a href="{{ url_for('editarPerfil') }}" class="btn-perfil btn-perfil--verde">Editar perfil</a>
       </div>
     </section>
 
@@ -51,6 +51,7 @@
       </div>
 
       <div class="perfil-info__acoes">
+        <a href="{{ url_for('alterarSenha') }}" class="btn-perfil btn-perfil--verde">Alterar senha</a>
         <button class="btn-perfil btn-perfil--vermelho" id="btn-excluir">Excluir conta</button>
       </div>
     </section>
@@ -69,10 +70,6 @@
   </div>
 
   <script>
-    // Editar perfil 
-    document.getElementById('btn-editar').addEventListener('click', () => {
-      alert('Funcionalidade em desenvolvimento!');
-    });
 
     // Modal excluir conta
     const modalExcluir = document.getElementById('modal-excluir');

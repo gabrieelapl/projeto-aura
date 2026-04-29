@@ -94,7 +94,7 @@ body::-webkit-scrollbar-thumb {
   display: inline-block;
   padding: 0.7rem 3rem;
   border-radius: 50px;
-  font-family: "Tommy-Medium", sans-serif;
+  font-family: "Tommy-Medium";
   font-size: 0.95rem;
   cursor: pointer;
   border: none;
