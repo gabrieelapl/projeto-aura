@@ -1,45 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <title>AURA</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" />
 </head>
-
 <body>
   <a href="javascript:history.back()" class="back-arrow"></a>
-
   <div class="elipse1"></div>
   <div class="elipse2"></div>
   <div class="elipse3"></div>
 
-  <!-- Formulário de cadastro -->
-  <form method="POST" action="/cadastro">
+  <form method="POST" action="/cadastro" id="form-cadastro">
     <h1 class="titulo-cadastro">Cadastre-se</h1>
     <p class="subtitulo-cadastro">Participe e expanda seu conhecimento!</p>
 
     {% if erro %}
-    <div class="erro-cadastro">{{ erro }}</div>
-    {% else %}
-    <div class="erro-cadastro">&nbsp;</div>
+    <div class="erro-cadastro">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ erro }}
+    </div>
     {% endif %}
 
     <label class="label-nome">Nome:</label><br />
-    <input type="nome" name="nome" placeholder="Digite aqui o seu nome" required />
+    <input type="text" name="nome" placeholder="Digite aqui o seu nome" required />
 
     <label class="label-email">Email:</label><br />
     <input type="email" name="email" placeholder="Digite aqui o seu email" required />
 
     <label class="label-senha">Senha:</label><br />
-    <input type="password" name="senha" placeholder="Digite aqui a sua senha" required />
+    <input type="password" name="senha" id="senha" placeholder="Digite aqui a sua senha" required />
 
-    <button class="btn-cadastro">Cadastre-se</button>
+    <button class="btn-cadastro" type="submit">Cadastre-se</button>
 
     <p class="txt-cadastro">
       Já tem login? <a href="/login">Entre agora!</a>
     </p>
   </form>
-</body>
 
+  <script>
+    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
+      const nome    = document.querySelector('input[name="nome"]').value.trim();
+      const email   = document.querySelector('input[name="email"]').value.trim();
+      const senha   = document.getElementById('senha').value.trim();
+
+      // Remove erro anterior
+      const erroExistente = document.querySelector('.erro-cadastro');
+      if (erroExistente) erroExistente.remove();
+
+      let mensagem = '';
+
+      if (!nome || !email || !senha) {
+        mensagem = 'Preencha todos os campos.';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        mensagem = 'Digite um e-mail válido.';
+      } else if (senha.length < 4) {
+        mensagem = 'A senha deve ter pelo menos 4 caracteres.';
+      }
+
+      if (mensagem) {
+        e.preventDefault();
+        const div = document.createElement('div');
+        div.className = 'erro-cadastro';
+        div.innerHTML = `
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          ${mensagem}`;
+        document.querySelector('form').insertBefore(div, document.querySelector('label'));
+      }
+    });
+  </script>
+</body>
 </html>

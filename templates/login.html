@@ -1,9 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <title>AURA</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login.css') }}"
+    />
   </head>
   <body>
     <a href="javascript:history.back()" class="back-arrow"></a>
@@ -14,14 +17,28 @@
 
     <!-- Formulário de login -->
     <form method="POST" action="/login">
+            {% if erro %}
+      <div class="erro-login">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#c0392b"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        {{ erro }}
+      </div>
+      {% endif %}
+      
       <h1 class="titulo-login">Login</h1>
       <p class="subtitulo-login">Educação ao seu alcance. Faça login agora!</p>
-
-      {% if erro %}
-      <div class="erro-login">{{ erro }}</div>
-      {% else %}
-      <div class="erro-login">&nbsp;</div>
-      {% endif %}
 
       <label class="label-email">Email:</label><br />
       <input
@@ -45,5 +62,36 @@
         Novo por aqui? <a href="/cadastro">Cadastre-se!</a>
       </p>
     </form>
+
+    <script>
+      document.querySelector("form").addEventListener("submit", function (e) {
+        const email = document
+          .querySelector('input[name="email"]')
+          .value.trim();
+        const senha = document
+          .querySelector('input[name="senha"]')
+          .value.trim();
+        const erro = document.querySelector(".erro-login");
+
+        if (!email || !senha) {
+          e.preventDefault();
+          erro.textContent = "Preencha todos os campos.";
+          return;
+        }
+
+        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (!emailValido) {
+          e.preventDefault();
+          erro.textContent = "Digite um e-mail válido.";
+          return;
+        }
+
+        if (senha.length < 4) {
+          e.preventDefault();
+          erro.textContent = "A senha deve ter pelo menos 4 caracteres.";
+          return;
+        }
+      });
+    </script>
   </body>
 </html>
