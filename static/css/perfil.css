@@ -50,7 +50,6 @@ body::-webkit-scrollbar-thumb {
   align-items: center;
   justify-content: center;
   color: var(--roxo_escuro);
-  box-shadow: var(--sombra);
   z-index: 100;
   transition: background var(--transition), transform var(--transition);
 }

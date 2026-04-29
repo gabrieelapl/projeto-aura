@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = 'aura_secret_key'
@@ -73,8 +75,28 @@ def perfil():
     return render_template('perfil.html')
 
 #rota para editar o perfil do usuário
-@app.route('/editarPerfil')
+@app.route('/editarPerfil', methods=['GET', 'POST'])
 def editarPerfil():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        nome = request.form.get('nome', '').strip()
+        bio  = request.form.get('bio', '').strip()
+
+        if not nome:
+            return render_template('editarPerfil.html', erro='O nome não pode estar vazio.')
+
+        foto = request.files.get('foto')
+        if foto and foto.filename:
+            nome_arquivo = secure_filename(foto.filename)
+            foto.save(os.path.join('static/img/fotos', nome_arquivo))
+            session['foto'] = nome_arquivo
+
+        session['nome'] = nome
+        session['bio']  = bio
+        return render_template('editarPerfil.html', sucesso='Perfil atualizado com sucesso!')
+
     return render_template('editarPerfil.html')
 
 #rota para alterar a senha da conta
