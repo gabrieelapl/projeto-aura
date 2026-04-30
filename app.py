@@ -100,8 +100,28 @@ def editarPerfil():
     return render_template('editarPerfil.html')
 
 #rota para alterar a senha da conta
-@app.route('/alterarSenha')
+@app.route('/alterarSenha', methods=['GET', 'POST'])
 def alterarSenha():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        senha_atual     = request.form.get('senha_atual', '').strip()
+        nova_senha      = request.form.get('nova_senha', '').strip()
+        confirmar_senha = request.form.get('confirmar_senha', '').strip()
+
+        usuario = next((u for u in USUARIOS if u['email'] == session['usuario']), None)
+
+        if not usuario or usuario['senha'] != senha_atual:
+            return render_template('alterarSenha.html', erro='Senha atual incorreta.')
+        if nova_senha != confirmar_senha:
+            return render_template('alterarSenha.html', erro='As senhas não coincidem.')
+        if len(nova_senha) < 6:
+            return render_template('alterarSenha.html', erro='A nova senha deve ter pelo menos 6 caracteres.')
+
+        usuario['senha'] = nova_senha
+        return render_template('alterarSenha.html', sucesso='Senha alterada com sucesso!')
+
     return render_template('alterarSenha.html')
 
 if __name__ == '__main__':

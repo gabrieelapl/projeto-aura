@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/alterarSenha.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="senha-page">
+    <div class="senha-card">
+
+      <h1 class="senha-titulo">Alterar senha</h1>
+      <p class="senha-subtitulo">Atualize sua senha para manter sua conta segura</p>
+
+      {% if erro %}
+      <div class="senha-erro">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        {{ erro }}
+      </div>
+      {% endif %}
+
+      {% if sucesso %}
+      <div class="senha-sucesso">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+        {{ sucesso }}
+      </div>
+      {% endif %}
+
+      <form method="POST" action="/alterar-senha" id="form-senha">
+
+        <div class="senha-campo">
+          <label class="senha-label">Senha atual</label>
+          <input type="password" name="senha_atual" class="senha-input" placeholder="Digite aqui sua senha atual" required/>
+        </div>
+
+        <div class="senha-campo">
+          <label class="senha-label">Nova senha</label>
+          <input type="password" name="nova_senha" id="nova_senha" class="senha-input" placeholder="Digite aqui sua nova senha" required/>
+        </div>
+
+        <div class="senha-campo">
+          <label class="senha-label">Confirmar nova senha</label>
+          <input type="password" name="confirmar_senha" id="confirmar_senha" class="senha-input" placeholder="Confirme sua nova senha" required/>
+        </div>
+
+        <button type="submit" class="btn-alterar">Alterar</button>
+
+      </form>
+
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('form-senha').addEventListener('submit', function(e) {
+      const atual     = document.querySelector('input[name="senha_atual"]').value.trim();
+      const nova      = document.getElementById('nova_senha').value.trim();
+      const confirmar = document.getElementById('confirmar_senha').value.trim();
+
+      if (!atual || !nova || !confirmar) {
+        e.preventDefault();
+        alert('Preencha todos os campos.');
+        return;
+      }
+      if (nova.length < 6) {
+        e.preventDefault();
+        alert('A nova senha deve ter pelo menos 6 caracteres.');
+        return;
+      }
+      if (nova !== confirmar) {
+        e.preventDefault();
+        alert('As senhas não coincidem.');
+      }
+    });
+  </script>
+
+</body>
+</html>
