@@ -1,6 +1,5 @@
-/* ═══════════════════════════════════════════════════════
-   AURA – Plano de Pesquisa · plano_pesquisa.css
-═══════════════════════════════════════════════════════ */
+
+
 
 @font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
 @font-face { font-family: "Tommy-Bold";    src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf"); }
@@ -32,7 +31,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 
 .hidden { display: none !important; }
 
-/* ── Botão voltar ── */
+
 .back-arrow {
   position: fixed;
   top: 24px; left: 24px;
@@ -46,7 +45,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 }
 .back-arrow:hover { transform: translateX(-3px); }
 
-/* ── Layout ── */
+
 .plano-page {
   max-width: 860px;
   margin: 0 auto;
@@ -56,7 +55,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   gap: 2rem;
 }
 
-/* ── Progresso ── */
+
 .plano-progresso {
   display: flex;
   flex-direction: column;
@@ -85,7 +84,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   width: 25%;
 }
 
-/* ── Título e subtítulo ── */
+
 .plano-titulo {
   font-family: "Tommy-Bold";
   font-size: clamp(1.4rem, 3vw, 1.8rem);
@@ -100,7 +99,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   margin-bottom: 5%;
 }
 
-/* ── Card ── */
+
 .plano-card {
   background: #fff;
   border-radius: var(--radius);
@@ -111,7 +110,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   gap: 1.2rem;
 }
 
-/* ── Textarea ── */
+
 .plano-textarea {
   width: 100%;
   border: none;
@@ -126,7 +125,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 }
 .plano-textarea::placeholder { color: #bbb; }
 
-/* ── Dica ── */
+
 .plano-dica {
   display: flex;
   align-items: center;
@@ -137,7 +136,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   color: #999999;
 }
 
-/* ── Grupo de checkboxes ── */
+
 .plano-grupo__titulo {
   font-family: "Tommy-Bold", sans-serif;
   font-size: 0.9rem;
@@ -202,7 +201,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   color: #444;
 }
 
-/* ── Navegação ── */
+
 .plano-nav {
   display: flex;
   justify-content: flex-end;
@@ -228,7 +227,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   transform: translateY(-2px);
 }
 
-/* ── Resultado final ── */
+
 .plano-card--resultado {
   gap: 0;
   padding: 1.8rem 2.5rem;
@@ -276,7 +275,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   font-weight: bold;
 }
 
-/* ── Botão baixar ── */
+
 .btn-baixar {
   display: inline-flex;
   align-items: center;
@@ -298,7 +297,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   color: var(--roxo_vivo);
 }
 
-/* ── Botão salvar ── */
+
 .btn-salvar {
   background: var(--verde);
   border: none;
@@ -313,7 +312,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 }
 .btn-salvar:hover { background: #8ecf5e; transform: translateY(-2px); }
 
-/* ── Responsivo ── */
+
 @media (max-width: 540px) {
   .plano-card   { padding: 1.4rem 1.2rem; }
   .plano-titulo { font-size: 1.3rem; }

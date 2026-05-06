@@ -1,7 +1,3 @@
-# ═══════════════════════════════════════════════════════
-#   AURA – app.py
-# ═══════════════════════════════════════════════════════
-
 from flask import Flask, render_template, request, redirect, session, url_for
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -17,23 +13,21 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
-# ── Banco de dados ──
+# Banco de dados
 app.config['SQLALCHEMY_DATABASE_URI']        = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 migrate = Migrate(app, db)
 
-# ── Pastas de uploads ──
+# Pastas de uploads
 UPLOAD_FOLDER  = os.path.join('static', 'img', 'fotos')
 ARTIGOS_FOLDER = os.path.join('static', 'uploads', 'artigos')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(ARTIGOS_FOLDER, exist_ok=True)
 
 
-# ════════════════════════════════════════════════════════
-#   ROTAS
-# ════════════════════════════════════════════════════════
+#ROTAS
 
 #substituir pelo bd dps
 def get_projetos():
