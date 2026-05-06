@@ -19,25 +19,27 @@
 
       <h1 class="editar-titulo">Perfil</h1>
 
-      <!-- Avatar -->
-      <div class="editar-avatar-wrap">
-        <div class="editar-avatar">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="40" fill="#e0e0e0"/>
-            <circle cx="40" cy="30" r="14" fill="#b0b0b0"/>
-            <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0"/>
-          </svg>
-          <!-- Preview da foto quando selecionada -->
-          <img id="foto-preview" src="" alt="Foto de perfil" style="display:none;"/>
-        </div>
+      <form method="POST" action="/editarPerfil" enctype="multipart/form-data" id="form-editar">
 
-        <!-- Input de foto oculto -->
+        <!-- input de foto dentro do form -->
         <input type="file" id="input-foto" name="foto" accept="image/*" style="display:none;"/>
-        <button type="button" class="btn-mudar-foto" id="btn-mudar-foto">Mudar foto</button>
-      </div>
 
-      <!-- Formulário -->
-      <form method="POST" action="/editar-perfil" enctype="multipart/form-data" id="form-editar">
+        <!-- Avatar -->
+        <div class="editar-avatar-wrap">
+          <div class="editar-avatar">
+            {% if session.get('foto') %}
+              <img src="{{ url_for('static', filename='img/fotos/' + session.get('foto')) }}" alt="Foto de perfil"/>
+            {% else %}
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="40" fill="#e0e0e0"/>
+                <circle cx="40" cy="30" r="14" fill="#b0b0b0"/>
+                <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0"/>
+              </svg>
+            {% endif %}
+            <img id="foto-preview" src="" alt="Preview" style="display:none;"/>
+          </div>
+          <button type="button" class="btn-mudar-foto" id="btn-mudar-foto">Mudar foto</button>
+        </div>
 
         {% if erro %}
         <div class="editar-erro">
@@ -89,11 +91,11 @@
   </main>
 
   <script>
-    // Preview da foto antes de enviar
-    const inputFoto   = document.getElementById('input-foto');
-    const btnFoto     = document.getElementById('btn-mudar-foto');
-    const fotoPreview = document.getElementById('foto-preview');
-    const avatarSvg   = document.querySelector('.editar-avatar svg');
+    const inputFoto  = document.getElementById('input-foto');
+    const btnFoto    = document.getElementById('btn-mudar-foto');
+    const preview    = document.getElementById('foto-preview');
+    const avatarSvg  = document.querySelector('.editar-avatar svg');
+    const avatarImg  = document.querySelector('.editar-avatar img:not(#foto-preview)');
 
     btnFoto.addEventListener('click', () => inputFoto.click());
 
@@ -103,14 +105,14 @@
 
       const reader = new FileReader();
       reader.onload = (e) => {
-        fotoPreview.src = e.target.result;
-        fotoPreview.style.display = 'block';
-        avatarSvg.style.display = 'none';
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        if (avatarSvg) avatarSvg.style.display = 'none';
+        if (avatarImg) avatarImg.style.display = 'none';
       };
       reader.readAsDataURL(file);
     });
 
-    // Validação do formulário
     document.getElementById('form-editar').addEventListener('submit', function(e) {
       const nome = document.querySelector('input[name="nome"]').value.trim();
       if (!nome) {

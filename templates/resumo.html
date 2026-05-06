@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resumo.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="resumo-page">
+    <div class="resumo-card">
+
+      <div class="resumo-card__header">
+        <h1 class="resumo-titulo">Gerar Resumo</h1>
+        <button class="btn-copiar" id="btn-copiar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="btn-copiar-texto">Copiar</span>
+        </button>
+      </div>
+
+      <div class="resumo-conteudo">
+        <h2 class="resumo-subtitulo">Resumo</h2>
+        <div class="resumo-texto" id="resumo-texto">
+O artigo aborda como a Inteligência Artificial (IA) está transformando o ensino superior. A IA é usada para personalizar o aprendizado, identificar dificuldades dos alunos, reduzir custos e tornar o ensino mais dinâmico. Porém, o uso da IA também apresenta desafios, como questões éticas, dependência tecnológica e a necessidade de capacitação dos professores.
+
+Inteligência Artificial no Ensino Superior
+Explica o conceito de IA como a capacidade de sistemas realizarem tarefas típicas da inteligência humana. No ensino superior, ela é aplicada em sistemas de tutoria inteligente, análise de dados e recomendações de conteúdo. A IA permite criar experiências de aprendizagem mais personalizadas e eficazes.
+
+Aplicações Práticas da IA na Educação
+<ul>
+  <li>Tutoria Inteligente: Plataformas que orientam o aluno com base em seu desempenho.</li>
+  <li>Análise Preditiva: Ferramentas que identificam quais alunos podem ter dificuldades futuras.</li>
+  <li>Chatbots Educacionais: Atendem dúvidas frequentes, oferecendo suporte.</li>
+  <li>Correção Automática de Avaliações: Automatiza parte do trabalho do professor.</li>
+  <li>Adaptação de Conteúdos: Ajuste de aulas com base no perfil e progresso do estudante.</li>
+</ul>
+
+Desafios e Limitações
+<ul>
+  <li>Ética e Privacidade: Uso de dados sensíveis dos alunos requer regulamentação.</li>
+  <li>Desigualdade de Acesso: Nem todas as instituições têm recursos para adotar IA.</li>
+  <li>Capacitação Docente: Muitos professores ainda não dominam essas tecnologias.</li>
+  <li>Dependência Tecnológica: Excesso de confiança nos sistemas pode ser prejudicial.</li>
+</ul>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const btnCopiar = document.getElementById('btn-copiar');
+    const btnTexto  = document.getElementById('btn-copiar-texto');
+
+    btnCopiar.addEventListener('click', () => {
+      const texto = document.getElementById('resumo-texto');
+      navigator.clipboard.writeText(texto.innerText).then(() => {
+        btnTexto.textContent = 'Copiado!';
+        btnCopiar.classList.add('btn-copiar--copiado');
+        setTimeout(() => {
+          btnTexto.textContent = 'Copiar';
+          btnCopiar.classList.remove('btn-copiar--copiado');
+        }, 2000);
+      });
+    });
+  </script>
+
+</body>
+</html>

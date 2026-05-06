@@ -6,7 +6,12 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}" />
 </head>
 <body>
-  <a href="javascript:history.back()" class="back-arrow"></a>
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+  
   <div class="elipse1"></div>
   <div class="elipse2"></div>
   <div class="elipse3"></div>
@@ -48,7 +53,6 @@
       const email   = document.querySelector('input[name="email"]').value.trim();
       const senha   = document.getElementById('senha').value.trim();
 
-      // Remove erro anterior
       const erroExistente = document.querySelector('.erro-cadastro');
       if (erroExistente) erroExistente.remove();
 
@@ -58,8 +62,8 @@
         mensagem = 'Preencha todos os campos.';
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         mensagem = 'Digite um e-mail válido.';
-      } else if (senha.length < 4) {
-        mensagem = 'A senha deve ter pelo menos 4 caracteres.';
+      } else if (senha.length < 6) {
+        mensagem = 'A senha deve ter pelo menos 6 caracteres.';
       }
 
       if (mensagem) {

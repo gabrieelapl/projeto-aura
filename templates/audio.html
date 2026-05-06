@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/audio.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="audio-page">
+    <div class="audio-card">
+
+      <h1 class="audio-titulo">Ouvir resumo em áudio</h1>
+
+      <div class="audio-player">
+
+        <!-- Info do artigo -->
+        <div class="audio-info">
+          <h2 class="audio-artigo-titulo">Aplicações de Aprendizado de Máquina no Apoio à Decisão Clínica</h2>
+          <p class="audio-artigo-autor">Johnson e outros, 2015</p>
+        </div>
+
+        <!-- Botão play/pause -->
+        <div class="audio-controls">
+          <button class="btn-play" id="btn-play" aria-label="Play">
+            <svg id="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
+            <svg id="icon-pause" width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none" style="display:none;">
+              <rect x="6" y="4" width="4" height="16" rx="1"/>
+              <rect x="14" y="4" width="4" height="16" rx="1"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Barra de progresso -->
+        <div class="audio-progress-wrap">
+          <input
+            type="range"
+            class="audio-progress"
+            id="audio-progress"
+            min="0" max="227" value="0"
+            step="1"
+          />
+          <div class="audio-time">
+            <span id="tempo-atual">0:00</span>
+            <span>3:47</span>
+          </div>
+        </div>
+
+        <!-- Velocidade -->
+        <div class="audio-speeds">
+          <button class="speed-btn" data-speed="0.75">0.75x</button>
+          <button class="speed-btn speed-btn--active" data-speed="1">1x</button>
+          <button class="speed-btn" data-speed="1.25">1.25x</button>
+          <button class="speed-btn" data-speed="1.5">1.5x</button>
+        </div>
+
+        <!-- Aviso -->
+        <p class="audio-aviso">
+          O reprodutor de áudio permanecerá ativo na parte inferior da tela<br/>
+          enquanto você navega entre as funções.
+        </p>
+
+        <!-- Elemento de áudio oculto (mock — sem src real) -->
+        <audio id="audio-element" preload="none">
+          <!-- src será preenchido pela API ElevenLabs futuramente -->
+        </audio>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const btnPlay     = document.getElementById('btn-play');
+    const iconPlay    = document.getElementById('icon-play');
+    const iconPause   = document.getElementById('icon-pause');
+    const progress    = document.getElementById('audio-progress');
+    const tempoAtual  = document.getElementById('tempo-atual');
+    const audio       = document.getElementById('audio-element');
+    const speedBtns   = document.querySelectorAll('.speed-btn');
+
+    let playing   = false;
+    let mockTimer = null;
+    let mockTime  = 0;
+    const TOTAL   = 227; // 3:47 em segundos (mock)
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    // Play/Pause mockado (sem áudio real ainda)
+    btnPlay.addEventListener('click', () => {
+      playing = !playing;
+
+      if (playing) {
+        iconPlay.style.display  = 'none';
+        iconPause.style.display = 'block';
+        btnPlay.classList.add('btn-play--playing');
+
+        // simula progresso
+        mockTimer = setInterval(() => {
+          if (mockTime >= TOTAL) {
+            clearInterval(mockTimer);
+            playing = false;
+            iconPlay.style.display  = 'block';
+            iconPause.style.display = 'none';
+            btnPlay.classList.remove('btn-play--playing');
+            mockTime = 0;
+            progress.value = 0;
+            tempoAtual.textContent = '0:00';
+            return;
+          }
+          mockTime++;
+          progress.value = mockTime;
+          tempoAtual.textContent = formatTime(mockTime);
+        }, 1000);
+
+      } else {
+        iconPlay.style.display  = 'block';
+        iconPause.style.display = 'none';
+        btnPlay.classList.remove('btn-play--playing');
+        clearInterval(mockTimer);
+      }
+    });
+
+    // Scrubbing na barra
+    progress.addEventListener('input', () => {
+      mockTime = parseInt(progress.value);
+      tempoAtual.textContent = formatTime(mockTime);
+    });
+
+    // Velocidade
+    speedBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        speedBtns.forEach(b => b.classList.remove('speed-btn--active'));
+        btn.classList.add('speed-btn--active');
+        // audio.playbackRate = parseFloat(btn.dataset.speed); // ativar com API real
+      });
+    });
+  </script>
+
+</body>
+</html>

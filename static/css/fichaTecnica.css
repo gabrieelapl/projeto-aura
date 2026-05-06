@@ -1,0 +1,136 @@
+/* ═══════════════════════════════════════════════════════
+   AURA – Ficha Técnica · ficha_tecnica.css
+═══════════════════════════════════════════════════════ */
+
+@font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Bold";    src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Medium";  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Regular"; src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf"); }
+
+:root {
+  --branco:    #f2f2f2;
+  --roxo_vivo: #9857f2;
+  --preto:     #262626;
+  --sombra:    0 4px 24px rgba(80, 40, 140, 0.08);
+  --radius:    16px;
+  --transition: 0.25s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--branco);
+  font-family: "Tommy-Regular", sans-serif;
+  color: var(--preto);
+  min-height: 100vh;
+}
+
+body::-webkit-scrollbar        { width: 10px; }
+body::-webkit-scrollbar-track  { background: var(--branco); }
+body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px; border: 2px solid #dcdcdc; }
+
+/* ── Botão voltar ── */
+.back-arrow {
+  position: fixed;
+  top: 24px; left: 24px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--preto);
+  z-index: 100;
+  text-decoration: none;
+  transition: transform var(--transition);
+}
+.back-arrow:hover { transform: translateX(-3px); }
+
+/* ── Layout ── */
+.ficha-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 60px 1.5rem 80px;
+}
+
+/* ── Card principal ── */
+.ficha-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 2.5rem 3rem;
+  border: 1px solid #26262623;
+}
+
+.ficha-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.8rem;
+}
+
+.ficha-titulo {
+  font-family: "Tommy-Bold", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--preto);
+}
+
+/* ── Botão exportar ── */
+.btn-exportar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f5f5f5;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.45rem 1rem;
+  font-family: "Tommy-Regular", sans-serif;
+  font-size: 0.82rem;
+  color: #666;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+.btn-exportar:hover {
+  background: #ede8fb;
+  border-color: var(--roxo_vivo);
+  color: var(--roxo_vivo);
+}
+
+/* ── Conteúdo ── */
+.ficha-conteudo {
+  background: #f5f5f5;
+  border-radius: 12px;
+  border: 1px solid #ececec;
+  padding: 2rem 2.5rem;
+}
+
+/* ── Seções ── */
+.ficha-secao {
+  padding-bottom: 1.6rem;
+  margin-bottom: 1.6rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.ficha-secao--last {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.ficha-secao__titulo {
+  font-family: "Tommy-Bold", sans-serif;
+  font-size: 0.97rem;
+  color: var(--preto);
+  margin-bottom: 0.6rem;
+}
+
+.ficha-secao__texto {
+  font-family: "Tommy-Regular", sans-serif;
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.85;
+  text-align: justify;
+}
+
+/* ── Responsivo ── */
+@media (max-width: 540px) {
+  .ficha-card    { padding: 1.5rem 1.2rem; }
+  .ficha-conteudo { padding: 1.2rem; }
+  .ficha-titulo  { font-size: 1.3rem; }
+}

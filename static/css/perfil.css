@@ -1,24 +1,48 @@
-@font-face { font-family: "Adam-Bold";     src: url(../font/Adam-Bold.ttf); }
-@font-face { font-family: "Adam-Light";    src: url(../font/Adam-Light.ttf); }
-@font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Bold";    src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Medium";  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Regular"; src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf"); }
-
-:root {
-  --branco:      #f2f2f2;
-  --roxo_vivo:   #9857f2;
-  --roxo_escuro: #4f3673;
-  --preto:       #262626;
-  --verde:       #98d96a;
-  --cinza:       #d4d3d3;
-  --vermelho:    #f25757;
-  --sombra:      0 4px 24px rgba(80, 40, 140, 0.08);
-  --radius:      16px;
-  --transition:  0.25s ease;
+@font-face {
+  font-family: "Adam-Bold";
+  src: url(../font/Adam-Bold.ttf);
+}
+@font-face {
+  font-family: "Adam-Light";
+  src: url(../font/Adam-Light.ttf);
+}
+@font-face {
+  font-family: "Tommy-Light";
+  src: url("../font/MADE TOMMY Light_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Bold";
+  src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Medium";
+  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Regular";
+  src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf");
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --branco: #f2f2f2;
+  --roxo_vivo: #9857f2;
+  --roxo_escuro: #4f3673;
+  --preto: #262626;
+  --verde: #98d96a;
+  --cinza: #d4d3d3;
+  --vermelho: #f25757;
+  --sombra: 0 4px 24px rgba(80, 40, 140, 0.08);
+  --radius: 16px;
+  --transition: 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   background-color: var(--branco);
@@ -51,7 +75,9 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
   color: var(--roxo_escuro);
   z-index: 100;
-  transition: background var(--transition), transform var(--transition);
+  transition:
+    background var(--transition),
+    transform var(--transition);
 }
 .back-arrow:hover {
   transform: translateX(-2px);
@@ -70,8 +96,7 @@ body::-webkit-scrollbar-thumb {
   background: #fff;
   border-radius: var(--radius);
   padding: 2rem 2.5rem;
-  box-shadow: var(--sombra);
-    border: solid 1px #26262623;  
+  border: solid 1px #26262623;
 }
 
 .perfil-card--header {
@@ -87,7 +112,17 @@ body::-webkit-scrollbar-thumb {
   border-radius: 50%;
   overflow: hidden;
 }
-.perfil-avatar svg { width: 100%; height: 100%; }
+.perfil-avatar svg {
+  width: 100%;
+  height: 100%;
+}
+
+.perfil-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .perfil-header__info {
   display: flex;
@@ -106,6 +141,13 @@ body::-webkit-scrollbar-thumb {
   font-family: "Tommy-Light";
   font-size: 0.92rem;
   color: var(--preto);
+  margin-bottom: 0.5rem;
+}
+
+.perfil-bio {
+  font-family: "Tommy-Light", sans-serif;
+  font-size: 0.88rem;
+  color: #666;
   margin-bottom: 0.5rem;
 }
 
@@ -160,14 +202,19 @@ body::-webkit-scrollbar-thumb {
   justify-content: center;
   padding: 0.55rem 1.4rem;
   border-radius: 50px;
-  font-family: "Tommy-Medium";;
+  font-family: "Tommy-Medium";
   font-size: 0.88rem;
   cursor: pointer;
   border: none;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
   text-decoration: none;
 }
-.btn-perfil:hover { transform: translateY(-2px); }
+.btn-perfil:hover {
+  transform: translateY(-2px);
+}
 
 .btn-perfil--verde {
   background-color: var(--verde);
@@ -185,7 +232,7 @@ body::-webkit-scrollbar-thumb {
   box-shadow: 0px 10px 21px 5px #0000001a;
 }
 .btn-perfil--vermelho:hover {
-  background-color: #EF4444;
+  background-color: #ef4444;
   box-shadow: 0px 10px 21px 5px #0000001a;
 }
 
@@ -193,7 +240,9 @@ body::-webkit-scrollbar-thumb {
   background-color: #ececec;
   color: #666;
 }
-.btn-perfil--cinza:hover { background-color: #e0e0e0; }
+.btn-perfil--cinza:hover {
+  background-color: #e0e0e0;
+}
 
 .modal-overlay {
   display: none;
@@ -206,7 +255,9 @@ body::-webkit-scrollbar-thumb {
   padding: 1.5rem;
   backdrop-filter: blur(3px);
 }
-.modal-overlay--ativo { display: flex; }
+.modal-overlay--ativo {
+  display: flex;
+}
 
 .modal {
   background: #fff;
@@ -219,8 +270,14 @@ body::-webkit-scrollbar-thumb {
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(20px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal__titulo {
@@ -229,7 +286,9 @@ body::-webkit-scrollbar-thumb {
   color: var(--roxo_escuro);
   margin-bottom: 1rem;
 }
-.modal__titulo--vermelho { color: var(--vermelho); }
+.modal__titulo--vermelho {
+  color: var(--vermelho);
+}
 
 .modal__texto {
   font-family: "Tommy-Regular", sans-serif;
@@ -246,10 +305,25 @@ body::-webkit-scrollbar-thumb {
 }
 
 @media (max-width: 540px) {
-  .perfil-page { padding: 52px 1rem 60px; }
-  .perfil-card { padding: 1.4rem 1.2rem; }
-  .perfil-card--header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-  .modal { padding: 1.5rem 1.2rem; }
-  .modal__acoes { flex-direction: column; }
-  .btn-perfil { width: 100%; justify-content: center; }
+  .perfil-page {
+    padding: 52px 1rem 60px;
+  }
+  .perfil-card {
+    padding: 1.4rem 1.2rem;
+  }
+  .perfil-card--header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .modal {
+    padding: 1.5rem 1.2rem;
+  }
+  .modal__acoes {
+    flex-direction: column;
+  }
+  .btn-perfil {
+    width: 100%;
+    justify-content: center;
+  }
 }

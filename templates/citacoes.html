@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/citacoes.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="citacoes-page">
+    <div class="citacoes-card">
+
+      <div class="citacoes-card__header">
+        <h1 class="citacoes-titulo">Citações</h1>
+        <button class="btn-exportar" id="btn-exportar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Exportar
+        </button>
+      </div>
+
+      <div class="citacoes-conteudo">
+
+        <!-- Abas de formato -->
+        <div class="citacoes-tabs">
+          <button class="tab-btn" data-formato="abnt">ABNT</button>
+          <button class="tab-btn" data-formato="apa">APA</button>
+          <button class="tab-btn tab-btn--active" data-formato="vancouver">Vancouver</button>
+        </div>
+
+        <!-- Lista de citações -->
+        <div class="citacoes-lista" id="citacoes-lista"></div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const dados = {
+      abnt: [
+        {
+          texto: 'SMITH, B. T.; CHEN, L. W. Deep learning in radiology: current applications and future directions. <strong>Radiology Today</strong>, v. 18, n. 2, p. 89-102, 2014.',
+          ref: 'Referenced in Literature Review (p. 4)'
+        },
+        {
+          texto: 'Smith, B. T., & Chen, L. W. (2014). Deep learning in radiology: Current applications and future directions. <strong>Radiology Today</strong>, 18(2), 89-102.',
+          ref: 'Referenced in Literature Review (p. 4)'
+        },
+        {
+          texto: 'OLIVEIRA, M. C. Inteligência artificial na saúde: desafios e oportunidades. <strong>Revista Brasileira de Informática em Saúde</strong>, v. 7, n. 1, p. 15-28, 2013.',
+          ref: 'Referenced in Methodology (p. 6)'
+        }
+      ],
+      apa: [
+        {
+          texto: 'Johnson, A. R., Williams, K. D., & Patel, S. N. (2015). Machine learning applications in clinical decision support: A systematic review. <strong>Journal of Medical Informatics</strong>, 42(3), 234-251.',
+          ref: 'Referenced in Introduction (p. 1) and Discussion (p. 12)'
+        },
+        {
+          texto: 'Smith, B. T., & Chen, L. W. (2014). Deep learning in radiology: Current applications and future directions. <strong>Radiology Today</strong>, 18(2), 89-102.',
+          ref: 'Referenced in Literature Review (p. 4)'
+        },
+        {
+          texto: 'Oliveira, M. C. (2013). Inteligência artificial na saúde: Desafios e oportunidades. <strong>Revista Brasileira de Informática em Saúde</strong>, 7(1), 15-28.',
+          ref: 'Referenced in Methodology (p. 6)'
+        }
+      ],
+      vancouver: [
+        {
+          texto: '1. Johnson AR, Williams KD, Patel SN. Machine learning applications in clinical decision support: a systematic review. <strong>J Med Inform.</strong> 2015;42(3):234-51.',
+          ref: 'Referenced in Introduction (p. 1) and Discussion (p. 12)'
+        },
+        {
+          texto: '2. Smith BT, Chen LW. Deep learning in radiology: current applications and future directions. <strong>Radiol Today.</strong> 2014;18(2):89-102.',
+          ref: 'Referenced in Literature Review (p. 4)'
+        },
+        {
+          texto: '3. Oliveira MC. Inteligência artificial na saude: desafios e oportunidades. <strong>Rev Bras Inform Saude.</strong> 2013;7(1):15-28.',
+          ref: 'Referenced in Methodology (p. 6)'
+        }
+      ]
+    };
+
+    let formatoAtual = 'vancouver';
+
+    function renderCitacoes(formato) {
+      const lista = document.getElementById('citacoes-lista');
+      lista.innerHTML = dados[formato].map(c => `
+        <div class="citacao-item">
+          <p class="citacao-texto">${c.texto}</p>
+          <p class="citacao-ref">${c.ref}</p>
+        </div>
+      `).join('');
+    }
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-btn--active'));
+        btn.classList.add('tab-btn--active');
+        formatoAtual = btn.dataset.formato;
+        renderCitacoes(formatoAtual);
+      });
+    });
+
+    // Exportar (mock)
+    document.getElementById('btn-exportar').addEventListener('click', () => {
+      const texto = dados[formatoAtual].map(c => {
+        const sem_html = c.texto.replace(/<[^>]+>/g, '');
+        return sem_html + '\n' + c.ref;
+      }).join('\n\n');
+
+      const blob = new Blob([texto], { type: 'text/plain' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = `citacoes_${formatoAtual.toUpperCase()}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Render inicial
+    renderCitacoes(formatoAtual);
+  </script>
+
+</body>
+</html>

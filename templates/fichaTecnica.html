@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/fichaTecnica.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="ficha-page">
+    <div class="ficha-card">
+
+      <div class="ficha-card__header">
+        <h1 class="ficha-titulo">Ficha técnica</h1>
+        <button class="btn-exportar" id="btn-exportar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Exportar
+        </button>
+      </div>
+
+      <div class="ficha-conteudo" id="ficha-conteudo">
+
+        <div class="ficha-secao">
+          <h2 class="ficha-secao__titulo">Objetivo</h2>
+          <p class="ficha-secao__texto">Avaliar a eficácia e as barreiras à adoção de algoritmos de aprendizado de máquina em sistemas de apoio à decisão clínica em diversos contextos de saúde.</p>
+        </div>
+
+        <div class="ficha-secao">
+          <h2 class="ficha-secao__titulo">Metodologia</h2>
+          <p class="ficha-secao__texto">Abordagem de métodos mistos que combina metanálise quantitativa de 47 estudos com análise temática qualitativa de relatórios de implementação. Os estudos foram obtidos do PubMed, IEEE Xplore e Cochrane Library.</p>
+        </div>
+
+        <div class="ficha-secao">
+          <h2 class="ficha-secao__titulo">Amostra</h2>
+          <p class="ficha-secao__texto">47 estudos revisados por pares, publicados entre 2010 e 2015, abrangendo radiologia, patologia, cardiologia e cuidados primários em 12 países.</p>
+        </div>
+
+        <div class="ficha-secao">
+          <h2 class="ficha-secao__titulo">Resultados</h2>
+          <p class="ficha-secao__texto">Os sistemas de suporte à decisão clínica (CDSS) baseados em aprendizado de máquina melhoraram a precisão diagnóstica em 78% dos estudos. Os melhores resultados foram obtidos em radiologia (89%) e patologia (82%). Os algoritmos Random Forest e SVM apresentaram a maior precisão geral.</p>
+        </div>
+
+        <div class="ficha-secao">
+          <h2 class="ficha-secao__titulo">Limitações</h2>
+          <p class="ficha-secao__texto">Possível viés de publicação em favor de resultados positivos. A heterogeneidade dos desenhos dos estudos limitou as comparações padronizadas. A maioria dos estudos foi retrospectiva, o que limita a inferência causal.</p>
+        </div>
+
+        <div class="ficha-secao ficha-secao--last">
+          <h2 class="ficha-secao__titulo">Conclusão</h2>
+          <p class="ficha-secao__texto">Os sistemas de apoio à decisão clínica baseados em aprendizado de máquina podem servir como um valioso complemento ao julgamento clínico em ambientes de alto volume, mas o viés algorítmico, a qualidade dos dados e a confiança do médico continuam sendo barreiras à sua adoção.</p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('btn-exportar').addEventListener('click', () => {
+      const secoes = document.querySelectorAll('.ficha-secao');
+      const texto  = Array.from(secoes).map(s => {
+        const titulo = s.querySelector('.ficha-secao__titulo').innerText;
+        const conteudo = s.querySelector('.ficha-secao__texto').innerText;
+        return `${titulo}\n${conteudo}`;
+      }).join('\n\n');
+
+      const blob = new Blob([texto], { type: 'text/plain' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'ficha_tecnica.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+
+</body>
+</html>

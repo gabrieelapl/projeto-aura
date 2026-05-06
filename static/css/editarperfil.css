@@ -79,7 +79,6 @@ body {
   padding: 2.5rem 3rem;
   width: 100%;
   max-width: 620px;
-  box-shadow: var(--sombra);
   border: 1px solid #26262623;
   text-align: center;
 }

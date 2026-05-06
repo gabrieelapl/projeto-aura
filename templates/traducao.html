@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA – Tradutor Técnico</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/traducao.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="traducao-page">
+    <div class="traducao-card">
+
+      <div class="traducao-card__header">
+        <h1 class="traducao-titulo">Tradutor técnico</h1>
+        <button class="btn-copiar" id="btn-copiar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="btn-copiar-texto">Copiar</span>
+        </button>
+      </div>
+
+      <div class="traducao-colunas">
+
+        <!-- Texto original -->
+        <div class="traducao-col">
+          <label class="traducao-col__label">Texto original</label>
+          <textarea
+            class="traducao-textarea"
+            id="texto-original"
+            placeholder="Cole aqui o texto técnico que deseja traduzir..."
+          >A heterogeneidade metodológica entre os estudos primários incluídos na síntese qualitativa comprometeu a comparabilidade dos achados, inviabilizando a condução de meta-análise e limitando o poder inferencial das conclusões obtidas. As divergências observadas abrangem desde a operacionalização dos construtos centrais até os procedimentos de amostragem e os instrumentos de coleta de dados adotados em cada investigação.</textarea>
+        </div>
+
+        <!-- Tradução -->
+        <div class="traducao-col">
+          <label class="traducao-col__label">Tradução</label>
+          <div class="traducao-resultado" id="traducao-resultado">
+            Os estudos analisados foram feitos de formas tão diferentes entre si que não foi possível comparar os resultados diretamente nem tirar conclusões gerais com segurança. Essas diferenças aparecem em vários aspectos, como a forma de definir os conceitos estudados, o modo de selecionar os participantes e os tipos de questionários ou testes utilizados.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Botão traduzir -->
+      <div class="traducao-footer">
+        <button class="btn-traduzir" id="btn-traduzir">Traduzir</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Copiar tradução
+    const btnCopiar = document.getElementById('btn-copiar');
+    const btnTexto  = document.getElementById('btn-copiar-texto');
+
+    btnCopiar.addEventListener('click', () => {
+      const texto = document.getElementById('traducao-resultado').innerText;
+      navigator.clipboard.writeText(texto).then(() => {
+        btnTexto.textContent = 'Copiado!';
+        btnCopiar.classList.add('btn-copiar--copiado');
+        setTimeout(() => {
+          btnTexto.textContent = 'Copiar';
+          btnCopiar.classList.remove('btn-copiar--copiado');
+        }, 2000);
+      });
+    });
+
+    // Traduzir (mock — futuramente integrar HuggingFace)
+    document.getElementById('btn-traduzir').addEventListener('click', () => {
+      const original  = document.getElementById('texto-original').value.trim();
+      const resultado = document.getElementById('traducao-resultado');
+
+      if (!original) {
+        resultado.textContent = 'Cole um texto no campo ao lado para traduzir.';
+        return;
+      }
+
+      // Mock: simula loading e retorna texto mockado
+      resultado.innerHTML = '<span class="traducao-loading">Traduzindo...</span>';
+
+      setTimeout(() => {
+        resultado.textContent = 'Os estudos analisados foram feitos de formas tão diferentes entre si que não foi possível comparar os resultados diretamente nem tirar conclusões gerais com segurança. Essas diferenças aparecem em vários aspectos, como a forma de definir os conceitos estudados, o modo de selecionar os participantes e os tipos de questionários ou testes utilizados.';
+      }, 1200);
+    });
+  </script>
+
+</body>
+</html>

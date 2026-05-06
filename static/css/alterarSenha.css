@@ -1,24 +1,48 @@
-@font-face { font-family: "Adam-Bold";     src: url(../font/Adam-Bold.ttf); }
-@font-face { font-family: "Adam-Light";    src: url(../font/Adam-Light.ttf); }
-@font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Bold";    src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Medium";  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf"); }
-@font-face { font-family: "Tommy-Regular"; src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf"); }
-
-:root {
-  --branco:      #f2f2f2;
-  --roxo_vivo:   #9857f2;
-  --roxo_escuro: #4f3673;
-  --preto:       #262626;
-  --verde:       #98d96a;
-  --cinza:       #d4d3d3;
-  --vermelho:    #f25757;
-  --sombra:      0 4px 24px rgba(80, 40, 140, 0.08);
-  --radius:      16px;
-  --transition:  0.25s ease;
+@font-face {
+  font-family: "Adam-Bold";
+  src: url(../font/Adam-Bold.ttf);
+}
+@font-face {
+  font-family: "Adam-Light";
+  src: url(../font/Adam-Light.ttf);
+}
+@font-face {
+  font-family: "Tommy-Light";
+  src: url("../font/MADE TOMMY Light_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Bold";
+  src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Medium";
+  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf");
+}
+@font-face {
+  font-family: "Tommy-Regular";
+  src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf");
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --branco: #f2f2f2;
+  --roxo_vivo: #9857f2;
+  --roxo_escuro: #4f3673;
+  --preto: #262626;
+  --verde: #98d96a;
+  --cinza: #d4d3d3;
+  --vermelho: #f25757;
+  --sombra: 0 4px 24px rgba(80, 40, 140, 0.08);
+  --radius: 16px;
+  --transition: 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   background-color: var(--branco);
@@ -30,9 +54,17 @@ body {
   justify-content: center;
 }
 
-body::-webkit-scrollbar        { width: 10px; }
-body::-webkit-scrollbar-track  { background: var(--branco); }
-body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px; border: 2px solid #dcdcdc; }
+body::-webkit-scrollbar {
+  width: 10px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--branco);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #d0c8e0;
+  border-radius: 20px;
+  border: 2px solid #dcdcdc;
+}
 
 .back-arrow {
   position: fixed;
@@ -49,7 +81,9 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   transition: transform var(--transition);
   text-decoration: none;
 }
-.back-arrow:hover { transform: translateX(-3px); }
+.back-arrow:hover {
+  transform: translateX(-3px);
+}
 
 .senha-page {
   width: 100%;
@@ -64,8 +98,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   padding: 3rem 3.5rem;
   width: 100%;
   max-width: 620px;
-  box-shadow: var(--sombra);
-  border: 1px solid #26262318;
+  border: 1px solid #26262623;
   text-align: center;
 }
 
@@ -79,7 +112,7 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 .senha-subtitulo {
   font-family: "Tommy-Light", sans-serif;
   font-size: 0.92rem;
-  color: #888;
+  color: var(--preto);
   margin-bottom: 2rem;
 }
 
@@ -106,14 +139,18 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   font-size: 0.9rem;
   color: var(--preto);
   outline: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: background var(--transition), box-shadow var(--transition);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  transition:
+    background var(--transition),
+    box-shadow var(--transition);
 }
 .senha-input:focus {
   background: #fff;
   box-shadow: 0 0 0 2px var(--roxo_vivo);
 }
-.senha-input::placeholder { color: #bbb; }
+.senha-input::placeholder {
+  color: #bbb;
+}
 
 .btn-alterar {
   display: block;
@@ -128,7 +165,9 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   font-size: 1rem;
   cursor: pointer;
   box-shadow: 0px 10px 21px 5px #0000001a;
-  transition: background var(--transition), transform var(--transition);
+  transition:
+    background var(--transition),
+    transform var(--transition);
 }
 .btn-alterar:hover {
   background-color: #8ecf5e;
@@ -162,6 +201,10 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
 }
 
 @media (max-width: 540px) {
-  .senha-card   { padding: 2rem 1.2rem; }
-  .btn-alterar  { width: 100%; }
+  .senha-card {
+    padding: 2rem 1.2rem;
+  }
+  .btn-alterar {
+    width: 100%;
+  }
 }

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/planoPesquisa.css') }}"/>
+</head>
+<body>
+
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </a>
+
+  <main class="plano-page">
+
+    <!-- Progresso -->
+    <div class="plano-progresso">
+      <span class="plano-etapa" id="label-etapa">Etapa 1 de 4</span>
+      <div class="plano-barra">
+        <div class="plano-barra__fill" id="barra-fill"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ ETAPA 1: Pergunta de pesquisa ══════════════════ -->
+    <div class="plano-etapa-wrap" id="etapa-1">
+      <h1 class="plano-titulo">Pergunta de Pesquisa</h1>
+      <p class="plano-subtitulo">O que você deseja investigar?</p>
+
+      <div class="plano-card">
+        <textarea
+          class="plano-textarea"
+          id="pergunta-input"
+          placeholder="Descreva o tema da sua pesquisa..."
+          rows="6"
+        ></textarea>
+      </div>
+
+      <p class="plano-dica">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9857f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+        </svg>
+        Dica: Experimente usar o formato PICO (População, Intervenção, Comparação, Resultado).
+      </p>
+    </div>
+
+    <!-- ══════════════════ ETAPA 2: Critérios de inclusão ══════════════════ -->
+    <div class="plano-etapa-wrap hidden" id="etapa-2">
+      <h1 class="plano-titulo">Critérios de inclusão</h1>
+      <p class="plano-subtitulo">Quais artigos devem ser incluídos?</p>
+
+      <div class="plano-card">
+
+        <h3 class="plano-grupo__titulo">Idiomas aceitos</h3>
+        <div class="plano-checks">
+          <label class="check-item"><input type="checkbox" checked/><span>Português</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Espanhol</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Inglês</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Outro</span></label>
+        </div>
+
+        <h3 class="plano-grupo__titulo">Tipos de publicação</h3>
+        <div class="plano-checks">
+          <label class="check-item"><input type="checkbox" checked/><span>Revisão sistemática ou meta-análise</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Dissertação ou tese</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Artigo científico completo</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Estudo de caso</span></label>
+        </div>
+
+        <h3 class="plano-grupo__titulo">Tipos de estudo</h3>
+        <div class="plano-checks">
+          <label class="check-item"><input type="checkbox" checked/><span>Estudo empírico com dados coletados</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Estudo teórico ou conceitual</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Revisão de literatura</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Estudo misto</span></label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════ ETAPA 3: Critérios de exclusão ══════════════════ -->
+    <div class="plano-etapa-wrap hidden" id="etapa-3">
+      <h1 class="plano-titulo">Critérios de exclusão</h1>
+      <p class="plano-subtitulo">O que descarta um artigo da sua revisão?</p>
+
+      <div class="plano-card">
+        <div class="plano-checks">
+          <label class="check-item"><input type="checkbox" checked/><span>Sem resumo disponível</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Sem revisão por pares</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Apenas resumo de conferência</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Artigo duplicado</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Tema mencionado superficialmente</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Amostras com menos de 30 participantes</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Estudos sem grupo controle</span></label>
+          <label class="check-item"><input type="checkbox"/><span>Não mede o desfecho principal da pesquisa</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ ETAPA 4: Banco de dados ══════════════════ -->
+    <div class="plano-etapa-wrap hidden" id="etapa-4">
+      <h1 class="plano-titulo">Banco de dados</h1>
+      <p class="plano-subtitulo">Onde você vai buscar os artigos?</p>
+
+      <div class="plano-card">
+        <div class="plano-checks">
+          <label class="check-item"><input type="checkbox" checked/><span>PubMed</span></label>
+          <label class="check-item"><input type="checkbox"/><span>IEEE Xplore</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Biblioteca Cochrane</span></label>
+          <label class="check-item"><input type="checkbox"/><span>SciELO</span></label>
+          <label class="check-item"><input type="checkbox" checked/><span>Google Acadêmico</span></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ RESULTADO FINAL ══════════════════ -->
+    <div class="plano-etapa-wrap hidden" id="etapa-resultado">
+      <h1 class="plano-titulo">Plano de pesquisa</h1>
+      <p class="plano-subtitulo">Quais artigos devem ser incluídos?</p>
+
+      <div class="plano-card plano-card--resultado">
+
+        <div class="resultado-secao">
+          <h2 class="resultado-secao__titulo">Pergunta de pesquisa</h2>
+          <p class="resultado-secao__texto" id="res-pergunta">—</p>
+        </div>
+
+        <div class="resultado-secao">
+          <h2 class="resultado-secao__titulo">Critérios de inclusão</h2>
+          <ul class="resultado-lista" id="res-inclusao"></ul>
+        </div>
+
+        <div class="resultado-secao">
+          <h2 class="resultado-secao__titulo">Critérios de exclusão</h2>
+          <ul class="resultado-lista" id="res-exclusao"></ul>
+        </div>
+
+        <div class="resultado-secao resultado-secao--last">
+          <h2 class="resultado-secao__titulo">Banco de dados</h2>
+          <ul class="resultado-lista" id="res-banco"></ul>
+        </div>
+
+        <button class="btn-baixar" id="btn-baixar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Baixar
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Botões de navegação -->
+    <div class="plano-nav" id="plano-nav">
+      <button class="btn-continuar" id="btn-continuar">
+        Continuar
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Botão salvar (só na tela de resultado) -->
+    <div class="plano-nav hidden" id="nav-salvar">
+      <button class="btn-salvar" id="btn-salvar">Salvar</button>
+    </div>
+
+  </main>
+
+  <script>
+    let etapaAtual = 1;
+    const totalEtapas = 4;
+
+    function atualizarProgresso() {
+      const pct = (etapaAtual / totalEtapas) * 100;
+      document.getElementById('barra-fill').style.width = pct + '%';
+
+      if (etapaAtual <= totalEtapas) {
+        document.getElementById('label-etapa').textContent = `Etapa ${etapaAtual} de ${totalEtapas}`;
+      } else {
+        document.getElementById('label-etapa').textContent = 'Plano gerado!';
+      }
+    }
+
+    function mostrarEtapa(n) {
+      document.querySelectorAll('.plano-etapa-wrap').forEach(el => el.classList.add('hidden'));
+      document.getElementById('plano-nav').classList.add('hidden');
+      document.getElementById('nav-salvar').classList.add('hidden');
+
+      if (n <= totalEtapas) {
+        document.getElementById(`etapa-${n}`).classList.remove('hidden');
+        document.getElementById('plano-nav').classList.remove('hidden');
+      } else {
+        gerarResultado();
+        document.getElementById('etapa-resultado').classList.remove('hidden');
+        document.getElementById('nav-salvar').classList.remove('hidden');
+      }
+
+      atualizarProgresso();
+    }
+
+    function getChecked(etapaId) {
+      return Array.from(
+        document.querySelectorAll(`#${etapaId} input[type="checkbox"]:checked`)
+      ).map(cb => cb.nextElementSibling.textContent.trim());
+    }
+
+    function gerarResultado() {
+      // Pergunta
+      const pergunta = document.getElementById('pergunta-input').value.trim()
+        || 'Nenhuma pergunta informada.';
+      document.getElementById('res-pergunta').textContent = pergunta;
+
+      // Inclusão (etapa 2 — todos os checkboxes marcados)
+      const inclusao = getChecked('etapa-2');
+      const ulInclusao = document.getElementById('res-inclusao');
+      ulInclusao.innerHTML = inclusao.map(i => `<li>${i}</li>`).join('');
+
+      // Exclusão
+      const exclusao = getChecked('etapa-3');
+      const ulExclusao = document.getElementById('res-exclusao');
+      ulExclusao.innerHTML = exclusao.map(i => `<li>${i}</li>`).join('');
+
+      // Banco de dados
+      const banco = getChecked('etapa-4');
+      const ulBanco = document.getElementById('res-banco');
+      ulBanco.innerHTML = banco.map(i => `<li>${i}</li>`).join('');
+    }
+
+    // Continuar
+    document.getElementById('btn-continuar').addEventListener('click', () => {
+      etapaAtual++;
+      mostrarEtapa(etapaAtual);
+    });
+
+    // Salvar (mock)
+    document.getElementById('btn-salvar').addEventListener('click', () => {
+      alert('Plano salvo com sucesso!');
+    });
+
+    // Baixar
+    document.getElementById('btn-baixar').addEventListener('click', () => {
+      const pergunta = document.getElementById('res-pergunta').textContent;
+      const inclusao = Array.from(document.querySelectorAll('#res-inclusao li')).map(l => '• ' + l.textContent).join('\n');
+      const exclusao = Array.from(document.querySelectorAll('#res-exclusao li')).map(l => '• ' + l.textContent).join('\n');
+      const banco    = Array.from(document.querySelectorAll('#res-banco li')).map(l => '• ' + l.textContent).join('\n');
+
+      const texto = `PLANO DE PESQUISA\n\nPergunta de pesquisa:\n${pergunta}\n\nCritérios de inclusão:\n${inclusao}\n\nCritérios de exclusão:\n${exclusao}\n\nBanco de dados:\n${banco}`;
+      const blob = new Blob([texto], { type: 'text/plain' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'plano_pesquisa.txt'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Init
+    mostrarEtapa(1);
+  </script>
+
+</body>
+</html>

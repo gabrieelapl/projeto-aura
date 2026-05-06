@@ -1,0 +1,197 @@
+@font-face { font-family: "Tommy-Light";   src: url("../font/MADE TOMMY Light_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Bold";    src: url("../font/MADE TOMMY Bold_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Medium";  src: url("../font/MADE TOMMY Medium_PERSONAL USE.otf"); }
+@font-face { font-family: "Tommy-Regular"; src: url("../font/MADE TOMMY Regular_PERSONAL USE.otf"); }
+
+:root {
+  --branco:    #f2f2f2;
+  --roxo_vivo: #9857f2;
+  --preto:     #262626;
+  --sombra:    0 4px 24px rgba(80, 40, 140, 0.08);
+  --radius:    16px;
+  --transition: 0.25s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--branco);
+  font-family: "Tommy-Regular", sans-serif;
+  color: var(--preto);
+  min-height: 100vh;
+}
+
+body::-webkit-scrollbar        { width: 10px; }
+body::-webkit-scrollbar-track  { background: var(--branco); }
+body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px; border: 2px solid #dcdcdc; }
+
+
+.back-arrow {
+  position: fixed;
+  top: 24px; left: 24px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--preto);
+  z-index: 100;
+  text-decoration: none;
+  transition: transform var(--transition);
+}
+.back-arrow:hover { transform: translateX(-3px); }
+
+
+.audio-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 60px 1.5rem 80px;
+}
+
+.audio-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 2.5rem 3rem;
+  border: 1px solid #26262623;
+}
+
+.audio-titulo {
+  font-family: "Tommy-Bold", sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--preto);
+  margin-bottom: 1.8rem;
+}
+
+
+.audio-player {
+  background: #f5f5f5;
+  border-radius: 12px;
+  border: 1px solid #ececec;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+
+.audio-info { text-align: center; }
+
+.audio-artigo-titulo {
+  font-family: "Tommy-Bold", sans-serif;
+  font-size: 1rem;
+  color: var(--preto);
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+}
+
+.audio-artigo-autor {
+  font-family: "Tommy-Light", sans-serif;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+
+.btn-play {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--roxo_vivo);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.btn-play:hover {
+  transform: scale(1.06);
+}
+.btn-play--playing {
+  background: #7a3fd4;
+}
+
+
+.audio-progress-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.audio-progress {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: linear-gradient(
+    to right,
+    var(--roxo_vivo) 0%,
+    var(--roxo_vivo) var(--progress, 0%),
+    #ddd var(--progress, 0%),
+    #ddd 100%
+  );
+  border-radius: 50px;
+  outline: none;
+  cursor: pointer;
+}
+
+.audio-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--roxo_vivo);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+.audio-progress::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+.audio-time {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Tommy-Light", sans-serif;
+  font-size: 0.78rem;
+  color: #888;
+  padding: 0 2px;
+}
+
+
+.audio-speeds {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.speed-btn {
+  background: #ececec;
+  border: none;
+  border-radius: 50px;
+  padding: 0.35rem 0.9rem;
+  font-family: "Tommy-Regular", sans-serif;
+  font-size: 0.82rem;
+  color: #555;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+.speed-btn:hover { background: #ddd; }
+.speed-btn--active {
+  background: var(--roxo_vivo);
+  color: #fff;
+}
+
+
+.audio-aviso {
+  font-family: "Tommy-Light", sans-serif;
+  font-size: 0.8rem;
+  color: #999;
+  text-align: center;
+  line-height: 1.6;
+}
+
+
+@media (max-width: 540px) {
+  .audio-card   { padding: 1.5rem 1.2rem; }
+  .audio-player { padding: 1.4rem 1rem; }
+  .audio-titulo { font-size: 1.3rem; }
+  .btn-play     { width: 60px; height: 60px; }
+}
