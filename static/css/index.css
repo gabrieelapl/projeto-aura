@@ -380,9 +380,9 @@ body::-webkit-scrollbar-thumb {
   padding: 2rem;
   border-radius: 16px;
   text-align: left;
-  max-width: 600px;   
-  margin: 0 auto;   
-  border: solid 1px #26262623;    
+  max-width: 600px;
+  margin: 0 auto;
+  border: solid 1px #26262623;
 }
 
 .upload__file-tag {
@@ -397,7 +397,7 @@ body::-webkit-scrollbar-thumb {
   font-size: 0.88rem;
   color: #363636;
   margin-bottom: 1.2rem;
-  position: relative; 
+  position: relative;
 }
 
 .upload__file-tag span {
@@ -526,17 +526,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .projeto-card {
-  background: #fff;
-  border: 1.5px solid #ececec;
+  background: var(--branco);
+  border: 1.5px solid #0000000e;
   border-radius: var(--radius);
   padding: 1.4rem 1.6rem;
-  box-shadow: var(--sombra);
   transition:
     box-shadow var(--transition),
     transform var(--transition);
 }
 .projeto-card:hover {
-  box-shadow: var(--sombra_hover);
   transform: translateY(-3px);
 }
 .projeto-card__header {
@@ -553,61 +551,87 @@ body::-webkit-scrollbar-thumb {
   flex: 1;
 }
 
-.projeto-card__menu-wrap { position: relative; flex-shrink: 0; }
+.projeto-card__menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
 
 .card-dropdown {
   display: none;
   position: absolute;
-  right: 0; top: calc(100% + 4px);
+  right: 0;
+  top: calc(100% + 4px);
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(40,10,80,0.14);
+  box-shadow: 0 8px 24px rgba(40, 10, 80, 0.14);
   border: 1px solid #ececec;
   overflow: hidden;
   z-index: 50;
   min-width: 130px;
 }
-.card-dropdown--open { display: block; }
+.card-dropdown--open {
+  display: block;
+}
 .card-dropdown button {
-  display: block; width: 100%;
+  display: block;
+  width: 100%;
   padding: 0.65rem 1rem;
-  background: none; border: none;
+  background: none;
+  border: none;
   text-align: left;
   font-family: "Tommy-Regular", sans-serif;
-  font-size: 0.85rem; color: #444;
+  font-size: 0.85rem;
+  color: #444;
   cursor: pointer;
   transition: background 0.2s;
 }
-.card-dropdown button:hover { background: #f5f5f5; }
-.card-dropdown__deletar { color: #f25757 !important; }
+.card-dropdown button:hover {
+  background: #f5f5f5;
+}
+.card-dropdown__deletar {
+  color: #f25757 !important;
+}
 
-.projeto-card__menu-wrap { position: relative; flex-shrink: 0; }
+.projeto-card__menu-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
 
 .card-dropdown {
   display: none;
   position: absolute;
-  right: 0; top: calc(100% + 4px);
+  right: 0;
+  top: calc(100% + 4px);
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(40,10,80,0.14);
+  box-shadow: 0 8px 24px rgba(40, 10, 80, 0.14);
   border: 1px solid #ececec;
   overflow: hidden;
   z-index: 50;
   min-width: 130px;
 }
-.card-dropdown--open { display: block; }
+.card-dropdown--open {
+  display: block;
+}
 .card-dropdown button {
-  display: block; width: 100%;
+  display: block;
+  width: 100%;
   padding: 0.65rem 1rem;
-  background: none; border: none;
+  background: none;
+  border: none;
   text-align: left;
   font-family: "Tommy-Regular", sans-serif;
-  font-size: 0.85rem; color: #444;
+  font-size: 0.85rem;
+  color: #444;
   cursor: pointer;
   transition: background 0.2s;
 }
-.card-dropdown button:hover { background: #f5f5f5; }
-.card-dropdown__deletar { color: #f25757 !important; }
+.card-dropdown button:hover {
+  background: #f5f5f5;
+}
+.card-dropdown__deletar {
+  color: #f25757 !important;
+}
 
 .projeto-card__menu {
   background: none;
@@ -660,16 +684,19 @@ body::-webkit-scrollbar-thumb {
   font-size: 0.78rem;
 }
 .badge--incluido {
-  background: var(--verde_claro);
-  color: #3a7a1a;
+  background: #d2ffe3;
+  color: #20b16d;
+  border: 1px solid #20b16d;
 }
 .badge--excluido {
-  background: var(--vermelho_bg);
-  color: #b83030;
+  background: #ffd6d6;
+  color: #dc2828;
+  border: 1px solid #dc2828;
 }
 .badge--pendente {
-  background: var(--amarelo_bg);
-  color: #9b6a10;
+  background: #ffecca;
+  color: #f59f0a;
+  border: 1px solid #f59f0a;
 }
 
 /* Sobte AURA */
@@ -716,7 +743,7 @@ body::-webkit-scrollbar-thumb {
 .card-sobreAura img {
   width: 100%;
   max-width: 100%;
-  height: 250px; 
+  height: 250px;
   object-fit: contain;
   margin-bottom: 16px;
 }
@@ -967,8 +994,6 @@ body::-webkit-scrollbar-thumb {
   font-size: 0.76rem;
   color: #ffffff;
 }
-
-
 
 @media (max-width: 1024px) {
   .hero__illustration {

@@ -186,6 +186,15 @@ body::-webkit-scrollbar-thumb  { background-color: #d0c8e0; border-radius: 20px;
   transform: translateY(-2px);
 }
 
+.traducao-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ede8fb;
+  border-top-color: #9857f2;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 680px) {
   .traducao-colunas { grid-template-columns: 1fr; }

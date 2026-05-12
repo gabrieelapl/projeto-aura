@@ -205,16 +205,19 @@ body::-webkit-scrollbar-thumb {
 }
 
 .status-badge--incluido {
-  background: var(--verde_claro);
-  color: #3a7a1a;
+  background: #D2FFE3;
+  color: #20B16D;
+  border: 1px solid #20B16D;
 }
 .status-badge--excluido {
-  background: var(--vermelho_bg);
-  color: #b83030;
+  background: #FFD6D6;
+  color: #DC2828;
+  border: 1px solid #DC2828;
 }
 .status-badge--pendente {
-  background: var(--amarelo_bg);
-  color: #9b6a10;
+  background: #FFECCA;
+  color: #F59F0A;
+  border: 1px solid #F59F0A;
 }
 
 /* Dropdown */

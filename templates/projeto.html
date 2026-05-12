@@ -1,287 +1,253 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AURA</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/projeto.css') }}"/>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/projeto.css') }}"
+    />
+  </head>
+  <body>
+    <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </a>
 
-  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-  </a>
+    <main class="projeto-page">
+      <!-- Título do projeto -->
+      <h1 class="projeto-titulo">{{ projeto.nome }}</h1>
 
-  <main class="projeto-page">
+      <!-- Filtros -->
+      <div class="projeto-filtros">
+        <button class="filtro-btn filtro-btn--active" data-filtro="tudo">
+          Tudo ({{ projeto.total }})
+        </button>
+        <button class="filtro-btn filtro-btn--incluido" data-filtro="incluido">
+          Incluído ({{ projeto.incluido }})
+        </button>
+        <button class="filtro-btn filtro-btn--excluido" data-filtro="excluido">
+          Excluído ({{ projeto.excluido }})
+        </button>
+        <button class="filtro-btn filtro-btn--pendente" data-filtro="pendente">
+          Pendente ({{ projeto.pendente }})
+        </button>
+      </div>
 
-    <!-- Título do projeto -->
-    <h1 class="projeto-titulo">Aprendizado de máquina na área da saúde</h1>
+      <!-- Lista de artigos -->
+      <div class="artigos-lista" id="artigos-lista">
+        {% for artigo in projeto.artigos %}
+        <div class="artigo-item" data-status="{{ artigo.status }}">
+          <div class="artigo-item__icon">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#aaa"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+          </div>
+          <div class="artigo-item__info">
+            <p class="artigo-item__titulo">{{ artigo.nome }}</p>
+            <p class="artigo-item__data">
+              {{ artigo.data or 'Recém adicionado' }}
+            </p>
+          </div>
+          <div class="artigo-item__status-wrap">
+            <button
+              class="status-badge status-badge--{{ artigo.status }}"
+              onclick="toggleDropdown(this)"
+            >
+              {{ artigo.status | capitalize }}
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="status-dropdown">
+              <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
+              <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
+              <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <p
+          style="
+            color: #aaa;
+            font-family: &quot;Tommy-Light&quot;;
+            text-align: center;
+            padding: 2rem 0;
+          "
+        >
+          Nenhum artigo neste projeto ainda.
+        </p>
+        {% endfor %}
+      </div>
+    </main>
 
-    <!-- Filtros -->
-    <div class="projeto-filtros">
-      <button class="filtro-btn filtro-btn--active" data-filtro="tudo">Tudo (14)</button>
-      <button class="filtro-btn filtro-btn--incluido" data-filtro="incluido">Incluído (9)</button>
-      <button class="filtro-btn filtro-btn--excluido" data-filtro="excluido">Excluído (4)</button>
-      <button class="filtro-btn filtro-btn--pendente" data-filtro="pendente">Pendente (1)</button>
+    <!-- Modal renomear -->
+    <div class="modal-overlay" id="modal-renomear">
+      <div class="modal">
+        <h3 class="modal__titulo">Renomear projeto</h3>
+        <input
+          type="text"
+          class="modal__input"
+          id="input-renomear"
+          value="Aprendizado de máquina na área da saúde"
+        />
+        <div class="modal__acoes">
+          <button
+            class="modal__btn modal__btn--cinza"
+            onclick="fecharModal('modal-renomear')"
+          >
+            Cancelar
+          </button>
+          <button
+            class="modal__btn modal__btn--roxo"
+            onclick="salvarRenomear()"
+          >
+            Salvar
+          </button>
+        </div>
+      </div>
     </div>
 
-    <!-- Lista de artigos -->
-    <div class="artigos-lista" id="artigos-lista">
-
-      <div class="artigo-item" data-status="incluido">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Aplicações de Aprendizado de Máquina no Apoio á decisão Clínica</p>
-          <p class="artigo-item__data">22 Fev, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--incluido" onclick="toggleDropdown(this)">
-            Incluído <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- Modal confirmar deletar -->
+    <div class="modal-overlay" id="modal-deletar">
+      <div class="modal">
+        <h3 class="modal__titulo modal__titulo--vermelho">Deletar projeto</h3>
+        <p class="modal__texto">
+          Tem certeza que deseja deletar este projeto? Esta ação é irreversível.
+        </p>
+        <div class="modal__acoes">
+          <button
+            class="modal__btn modal__btn--cinza"
+            onclick="fecharModal('modal-deletar')"
+          >
+            Cancelar
           </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
+          <button class="modal__btn modal__btn--vermelho">Sim, deletar</button>
         </div>
-      </div>
-
-      <div class="artigo-item" data-status="incluido">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Modelos Transformer em tarefas de PLN clínico</p>
-          <p class="artigo-item__data">26 Mar, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--incluido" onclick="toggleDropdown(this)">
-            Incluído <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="artigo-item" data-status="excluido">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Floresta aleatória para predição de doenças</p>
-          <p class="artigo-item__data">28 Mar, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--excluido" onclick="toggleDropdown(this)">
-            Excluído <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="artigo-item" data-status="pendente">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Aprendizado por reforço na descoberta de fármacos</p>
-          <p class="artigo-item__data">22 Mar, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--pendente" onclick="toggleDropdown(this)">
-            Pendente <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="artigo-item" data-status="pendente">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Aprendizado federado para privacidade de pacientes</p>
-          <p class="artigo-item__data">20 Mar, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--pendente" onclick="toggleDropdown(this)">
-            Pendente <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="artigo-item" data-status="excluido">
-        <div class="artigo-item__icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/>
-            <line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="artigo-item__info">
-          <p class="artigo-item__titulo">Redes Bayesianas em diagnósticos</p>
-          <p class="artigo-item__data">18 Mar, 2026</p>
-        </div>
-        <div class="artigo-item__status-wrap">
-          <button class="status-badge status-badge--excluido" onclick="toggleDropdown(this)">
-            Excluído <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <div class="status-dropdown">
-            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- Modal renomear -->
-  <div class="modal-overlay" id="modal-renomear">
-    <div class="modal">
-      <h3 class="modal__titulo">Renomear projeto</h3>
-      <input type="text" class="modal__input" id="input-renomear" value="Aprendizado de máquina na área da saúde"/>
-      <div class="modal__acoes">
-        <button class="modal__btn modal__btn--cinza" onclick="fecharModal('modal-renomear')">Cancelar</button>
-        <button class="modal__btn modal__btn--roxo" onclick="salvarRenomear()">Salvar</button>
       </div>
     </div>
-  </div>
 
-  <!-- Modal confirmar deletar -->
-  <div class="modal-overlay" id="modal-deletar">
-    <div class="modal">
-      <h3 class="modal__titulo modal__titulo--vermelho">Deletar projeto</h3>
-      <p class="modal__texto">Tem certeza que deseja deletar este projeto? Esta ação é irreversível.</p>
-      <div class="modal__acoes">
-        <button class="modal__btn modal__btn--cinza" onclick="fecharModal('modal-deletar')">Cancelar</button>
-        <button class="modal__btn modal__btn--vermelho">Sim, deletar</button>
-      </div>
-    </div>
-  </div>
+    <script>
+      // ── Filtros ──
+      const filtroAtivo = { valor: "tudo" };
 
-  <script>
-    // ── Filtros ──
-    const filtroAtivo = { valor: 'tudo' };
-
-    document.querySelectorAll('.filtro-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('filtro-btn--active'));
-        btn.classList.add('filtro-btn--active');
-        filtroAtivo.valor = btn.dataset.filtro;
-        filtrar(filtroAtivo.valor);
+      document.querySelectorAll(".filtro-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".filtro-btn")
+            .forEach((b) => b.classList.remove("filtro-btn--active"));
+          btn.classList.add("filtro-btn--active");
+          filtroAtivo.valor = btn.dataset.filtro;
+          filtrar(filtroAtivo.valor);
+        });
       });
-    });
 
-    function filtrar(filtro) {
-      document.querySelectorAll('.artigo-item').forEach(item => {
-        if (filtro === 'tudo' || item.dataset.status === filtro) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
+      function filtrar(filtro) {
+        document.querySelectorAll(".artigo-item").forEach((item) => {
+          if (filtro === "tudo" || item.dataset.status === filtro) {
+            item.style.display = "flex";
+          } else {
+            item.style.display = "none";
+          }
+        });
+      }
+
+      // ── Dropdown de status ──
+      function toggleDropdown(btn) {
+        const wrap = btn.closest(".artigo-item__status-wrap");
+        const dropdown = wrap.querySelector(".status-dropdown");
+        const aberto = dropdown.classList.contains("status-dropdown--open");
+
+        // Fecha todos
+        document
+          .querySelectorAll(".status-dropdown--open")
+          .forEach((d) => d.classList.remove("status-dropdown--open"));
+        if (!aberto) dropdown.classList.add("status-dropdown--open");
+      }
+
+      function mudarStatus(btn, novoStatus) {
+        const wrap = btn.closest(".artigo-item__status-wrap");
+        const badge = wrap.querySelector(".status-badge");
+        const item = btn.closest(".artigo-item");
+        const label = {
+          incluido: "Incluído",
+          excluido: "Excluído",
+          pendente: "Pendente",
+        };
+
+        badge.className = `status-badge status-badge--${novoStatus}`;
+        badge.innerHTML = `${label[novoStatus]} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
+        badge.onclick = function () {
+          toggleDropdown(this);
+        };
+
+        item.dataset.status = novoStatus;
+        wrap
+          .querySelector(".status-dropdown")
+          .classList.remove("status-dropdown--open");
+      }
+
+      // Fecha dropdown ao clicar fora
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".artigo-item__status-wrap")) {
+          document
+            .querySelectorAll(".status-dropdown--open")
+            .forEach((d) => d.classList.remove("status-dropdown--open"));
         }
       });
-    }
 
-    // ── Dropdown de status ──
-    function toggleDropdown(btn) {
-      const wrap    = btn.closest('.artigo-item__status-wrap');
-      const dropdown = wrap.querySelector('.status-dropdown');
-      const aberto  = dropdown.classList.contains('status-dropdown--open');
-
-      // Fecha todos
-      document.querySelectorAll('.status-dropdown--open').forEach(d => d.classList.remove('status-dropdown--open'));
-      if (!aberto) dropdown.classList.add('status-dropdown--open');
-    }
-
-    function mudarStatus(btn, novoStatus) {
-      const wrap    = btn.closest('.artigo-item__status-wrap');
-      const badge   = wrap.querySelector('.status-badge');
-      const item    = btn.closest('.artigo-item');
-      const label   = { incluido: 'Incluído', excluido: 'Excluído', pendente: 'Pendente' };
-
-      badge.className = `status-badge status-badge--${novoStatus}`;
-      badge.innerHTML = `${label[novoStatus]} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
-      badge.onclick = function() { toggleDropdown(this); };
-
-      item.dataset.status = novoStatus;
-      wrap.querySelector('.status-dropdown').classList.remove('status-dropdown--open');
-    }
-
-    // Fecha dropdown ao clicar fora
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.artigo-item__status-wrap')) {
-        document.querySelectorAll('.status-dropdown--open').forEach(d => d.classList.remove('status-dropdown--open'));
+      // ── Modais ──
+      function abrirModal(id) {
+        document.getElementById(id).classList.add("modal-overlay--ativo");
       }
-    });
+      function fecharModal(id) {
+        document.getElementById(id).classList.remove("modal-overlay--ativo");
+      }
+      function salvarRenomear() {
+        const nome = document.getElementById("input-renomear").value.trim();
+        if (nome) document.querySelector(".projeto-titulo").textContent = nome;
+        fecharModal("modal-renomear");
+      }
 
-    // ── Modais ──
-    function abrirModal(id) {
-      document.getElementById(id).classList.add('modal-overlay--ativo');
-    }
-    function fecharModal(id) {
-      document.getElementById(id).classList.remove('modal-overlay--ativo');
-    }
-    function salvarRenomear() {
-      const nome = document.getElementById('input-renomear').value.trim();
-      if (nome) document.querySelector('.projeto-titulo').textContent = nome;
-      fecharModal('modal-renomear');
-    }
-
-    // Fecha modal ao clicar fora
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) overlay.classList.remove('modal-overlay--ativo');
+      // Fecha modal ao clicar fora
+      document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay)
+            overlay.classList.remove("modal-overlay--ativo");
+        });
       });
-    });
-  </script>
-
-</body>
+    </script>
+  </body>
 </html>
