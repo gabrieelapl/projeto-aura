@@ -1,253 +1,242 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AURA</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/projeto.css') }}"
-    />
-  </head>
-  <body>
-    <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
-    </a>
 
-    <main class="projeto-page">
-      <!-- Título do projeto -->
-      <h1 class="projeto-titulo">{{ projeto.nome }}</h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/projeto.css') }}" />
+</head>
 
-      <!-- Filtros -->
-      <div class="projeto-filtros">
-        <button class="filtro-btn filtro-btn--active" data-filtro="tudo">
-          Tudo ({{ projeto.total }})
-        </button>
-        <button class="filtro-btn filtro-btn--incluido" data-filtro="incluido">
-          Incluído ({{ projeto.incluido }})
-        </button>
-        <button class="filtro-btn filtro-btn--excluido" data-filtro="excluido">
-          Excluído ({{ projeto.excluido }})
-        </button>
-        <button class="filtro-btn filtro-btn--pendente" data-filtro="pendente">
-          Pendente ({{ projeto.pendente }})
-        </button>
-      </div>
+<body>
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  </a>
 
-      <!-- Lista de artigos -->
-      <div class="artigos-lista" id="artigos-lista">
-        {% for artigo in projeto.artigos %}
-        <div class="artigo-item" data-status="{{ artigo.status }}">
-          <div class="artigo-item__icon">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#aaa"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-              />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
+  <main class="projeto-page">
+    <!-- Título do projeto -->
+    <h1 class="projeto-titulo">{{ projeto.nome }}</h1>
+
+    <!-- Filtros -->
+    <div class="projeto-filtros">
+      <button class="filtro-btn filtro-btn--active" data-filtro="tudo">Tudo (<span id="count-tudo">0</span>)</button>
+      <button class="filtro-btn filtro-btn--incluido" data-filtro="incluido">Incluído (<span
+          id="count-incluido">0</span>)</button>
+      <button class="filtro-btn filtro-btn--excluido" data-filtro="excluido">Excluído (<span
+          id="count-excluido">0</span>)</button>
+      <button class="filtro-btn filtro-btn--pendente" data-filtro="pendente">Pendente (<span
+          id="count-pendente">0</span>)</button>
+    </div>
+
+    <!-- Lista de artigos -->
+    <div class="artigos-lista" id="artigos-lista">
+      {% for artigo in projeto.artigos %}
+      <div class="artigo-item" data-status="{{ artigo.status }}">
+        <div class="artigo-item__icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+          </svg>
+        </div>
+        <div class="artigo-item__info">
+          <p class="artigo-item__titulo">{{ artigo.nome }}</p>
+          <p class="artigo-item__data">
+            {{ artigo.data or 'Recém adicionado' }}
+          </p>
+        </div>
+        <div class="artigo-item__status-wrap">
+          <button class="status-badge status-badge--{{ artigo.status }}" onclick="toggleDropdown(this)">
+            {{ artigo.status | capitalize }}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="6 9 12 15 18 9" />
             </svg>
-          </div>
-          <div class="artigo-item__info">
-            <p class="artigo-item__titulo">{{ artigo.nome }}</p>
-            <p class="artigo-item__data">
-              {{ artigo.data or 'Recém adicionado' }}
-            </p>
-          </div>
-          <div class="artigo-item__status-wrap">
-            <button
-              class="status-badge status-badge--{{ artigo.status }}"
-              onclick="toggleDropdown(this)"
-            >
-              {{ artigo.status | capitalize }}
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2.5"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </button>
-            <div class="status-dropdown">
-              <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
-              <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
-              <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
-            </div>
+          </button>
+          <div class="status-dropdown">
+            <button onclick="mudarStatus(this, 'incluido')">Incluído</button>
+            <button onclick="mudarStatus(this, 'excluido')">Excluído</button>
+            <button onclick="mudarStatus(this, 'pendente')">Pendente</button>
           </div>
         </div>
-        {% else %}
-        <p
-          style="
+      </div>
+      {% else %}
+      <p style="
             color: #aaa;
             font-family: &quot;Tommy-Light&quot;;
             text-align: center;
             padding: 2rem 0;
-          "
-        >
-          Nenhum artigo neste projeto ainda.
-        </p>
-        {% endfor %}
-      </div>
-    </main>
+          ">
+        Nenhum artigo neste projeto ainda.
+      </p>
+      {% endfor %}
+    </div>
+  </main>
 
-    <!-- Modal renomear -->
-    <div class="modal-overlay" id="modal-renomear">
-      <div class="modal">
-        <h3 class="modal__titulo">Renomear projeto</h3>
-        <input
-          type="text"
-          class="modal__input"
-          id="input-renomear"
-          value="Aprendizado de máquina na área da saúde"
-        />
-        <div class="modal__acoes">
-          <button
-            class="modal__btn modal__btn--cinza"
-            onclick="fecharModal('modal-renomear')"
-          >
-            Cancelar
-          </button>
-          <button
-            class="modal__btn modal__btn--roxo"
-            onclick="salvarRenomear()"
-          >
-            Salvar
-          </button>
-        </div>
+  <!-- Modal renomear -->
+  <div class="modal-overlay" id="modal-renomear">
+    <div class="modal">
+      <h3 class="modal__titulo">Renomear projeto</h3>
+      <input type="text" class="modal__input" id="input-renomear" value="Aprendizado de máquina na área da saúde" />
+      <div class="modal__acoes">
+        <button class="modal__btn modal__btn--cinza" onclick="fecharModal('modal-renomear')">
+          Cancelar
+        </button>
+        <button class="modal__btn modal__btn--roxo" onclick="salvarRenomear()">
+          Salvar
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Modal confirmar deletar -->
-    <div class="modal-overlay" id="modal-deletar">
-      <div class="modal">
-        <h3 class="modal__titulo modal__titulo--vermelho">Deletar projeto</h3>
-        <p class="modal__texto">
-          Tem certeza que deseja deletar este projeto? Esta ação é irreversível.
-        </p>
-        <div class="modal__acoes">
-          <button
-            class="modal__btn modal__btn--cinza"
-            onclick="fecharModal('modal-deletar')"
-          >
-            Cancelar
-          </button>
-          <button class="modal__btn modal__btn--vermelho">Sim, deletar</button>
-        </div>
+  <!-- Modal confirmar deletar -->
+  <div class="modal-overlay" id="modal-deletar">
+    <div class="modal">
+      <h3 class="modal__titulo modal__titulo--vermelho">Deletar projeto</h3>
+      <p class="modal__texto">
+        Tem certeza que deseja deletar este projeto? Esta ação é irreversível.
+      </p>
+      <div class="modal__acoes">
+        <button class="modal__btn modal__btn--cinza" onclick="fecharModal('modal-deletar')">
+          Cancelar
+        </button>
+        <button class="modal__btn modal__btn--vermelho">Sim, deletar</button>
       </div>
     </div>
+  </div>
 
-    <script>
-      // ── Filtros ──
-      const filtroAtivo = { valor: "tudo" };
+  <script>
+    // ── Filtros ──
+    const filtroAtivo = { valor: "tudo" };
 
-      document.querySelectorAll(".filtro-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".filtro-btn")
-            .forEach((b) => b.classList.remove("filtro-btn--active"));
-          btn.classList.add("filtro-btn--active");
-          filtroAtivo.valor = btn.dataset.filtro;
-          filtrar(filtroAtivo.valor);
-        });
+    document.querySelectorAll(".filtro-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document
+          .querySelectorAll(".filtro-btn")
+          .forEach((b) => b.classList.remove("filtro-btn--active"));
+        btn.classList.add("filtro-btn--active");
+        filtroAtivo.valor = btn.dataset.filtro;
+        filtrar(filtroAtivo.valor);
       });
+    });
 
-      function filtrar(filtro) {
-        document.querySelectorAll(".artigo-item").forEach((item) => {
-          if (filtro === "tudo" || item.dataset.status === filtro) {
-            item.style.display = "flex";
-          } else {
-            item.style.display = "none";
-          }
-        });
-      }
+    function filtrar(filtro) {
+      document.querySelectorAll(".artigo-item").forEach((item) => {
+        if (filtro === "tudo" || item.dataset.status === filtro) {
+          item.style.display = "flex";
+        } else {
+          item.style.display = "none";
+        }
+      });
+    }
 
-      // ── Dropdown de status ──
-      function toggleDropdown(btn) {
-        const wrap = btn.closest(".artigo-item__status-wrap");
-        const dropdown = wrap.querySelector(".status-dropdown");
-        const aberto = dropdown.classList.contains("status-dropdown--open");
+    // ── Dropdown de status ──
+    function toggleDropdown(btn) {
+      const wrap = btn.closest(".artigo-item__status-wrap");
+      const dropdown = wrap.querySelector(".status-dropdown");
+      const aberto = dropdown.classList.contains("status-dropdown--open");
 
-        // Fecha todos
+      // Fecha todos
+      document
+        .querySelectorAll(".status-dropdown--open")
+        .forEach((d) => d.classList.remove("status-dropdown--open"));
+      if (!aberto) dropdown.classList.add("status-dropdown--open");
+    }
+
+    function mudarStatus(btn, novoStatus) {
+      const wrap = btn.closest(".artigo-item__status-wrap");
+      const badge = wrap.querySelector(".status-badge");
+      const item = btn.closest(".artigo-item");
+      const label = {
+        incluido: "Incluído",
+        excluido: "Excluído",
+        pendente: "Pendente",
+      };
+
+      badge.className = `status-badge status-badge--${novoStatus}`;
+      badge.innerHTML = `${label[novoStatus]} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
+      badge.onclick = function () {
+        toggleDropdown(this);
+      };
+
+      item.dataset.status = novoStatus;
+      wrap
+        .querySelector(".status-dropdown")
+        .classList.remove("status-dropdown--open");
+    }
+
+    // Fecha dropdown ao clicar fora
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".artigo-item__status-wrap")) {
         document
           .querySelectorAll(".status-dropdown--open")
           .forEach((d) => d.classList.remove("status-dropdown--open"));
-        if (!aberto) dropdown.classList.add("status-dropdown--open");
       }
+    });
 
-      function mudarStatus(btn, novoStatus) {
-        const wrap = btn.closest(".artigo-item__status-wrap");
-        const badge = wrap.querySelector(".status-badge");
-        const item = btn.closest(".artigo-item");
-        const label = {
-          incluido: "Incluído",
-          excluido: "Excluído",
-          pendente: "Pendente",
-        };
+    // ── Modais ──
+    function abrirModal(id) {
+      document.getElementById(id).classList.add("modal-overlay--ativo");
+    }
+    function fecharModal(id) {
+      document.getElementById(id).classList.remove("modal-overlay--ativo");
+    }
+    function salvarRenomear() {
+      const nome = document.getElementById("input-renomear").value.trim();
+      if (nome) document.querySelector(".projeto-titulo").textContent = nome;
+      fecharModal("modal-renomear");
+    }
 
-        badge.className = `status-badge status-badge--${novoStatus}`;
-        badge.innerHTML = `${label[novoStatus]} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
-        badge.onclick = function () {
-          toggleDropdown(this);
-        };
+    // Fecha modal ao clicar fora
+    document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay)
+          overlay.classList.remove("modal-overlay--ativo");
+      });
+    });
 
-        item.dataset.status = novoStatus;
-        wrap
-          .querySelector(".status-dropdown")
-          .classList.remove("status-dropdown--open");
-      }
+    function recalcularContadores() {
+      const artigos = document.querySelectorAll('.artigo-item');
+      let tudo = 0, incluido = 0, excluido = 0, pendente = 0;
 
-      // Fecha dropdown ao clicar fora
-      document.addEventListener("click", (e) => {
-        if (!e.target.closest(".artigo-item__status-wrap")) {
-          document
-            .querySelectorAll(".status-dropdown--open")
-            .forEach((d) => d.classList.remove("status-dropdown--open"));
+      artigos.forEach(a => {
+        if (a.style.display !== 'none' || true) { // conta todos
+          tudo++;
+          const status = a.dataset.status;
+          if (status === 'incluido') incluido++;
+          else if (status === 'excluido') excluido++;
+          else pendente++;
         }
       });
 
-      // ── Modais ──
-      function abrirModal(id) {
-        document.getElementById(id).classList.add("modal-overlay--ativo");
-      }
-      function fecharModal(id) {
-        document.getElementById(id).classList.remove("modal-overlay--ativo");
-      }
-      function salvarRenomear() {
-        const nome = document.getElementById("input-renomear").value.trim();
-        if (nome) document.querySelector(".projeto-titulo").textContent = nome;
-        fecharModal("modal-renomear");
-      }
+      document.getElementById('count-tudo').textContent = tudo;
+      document.getElementById('count-incluido').textContent = incluido;
+      document.getElementById('count-excluido').textContent = excluido;
+      document.getElementById('count-pendente').textContent = pendente;
+    }
 
-      // Fecha modal ao clicar fora
-      document.querySelectorAll(".modal-overlay").forEach((overlay) => {
-        overlay.addEventListener("click", (e) => {
-          if (e.target === overlay)
-            overlay.classList.remove("modal-overlay--ativo");
-        });
-      });
-    </script>
-  </body>
+    recalcularContadores();
+
+    function mudarStatus(btn, novoStatus) {
+      const wrap = btn.closest('.artigo-item__status-wrap');
+      const badge = wrap.querySelector('.status-badge');
+      const item = btn.closest('.artigo-item');
+      const label = { incluido: 'Incluído', excluido: 'Excluído', pendente: 'Pendente' };
+
+      badge.className = `status-badge status-badge--${novoStatus}`;
+      badge.innerHTML = `${label[novoStatus]} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>`;
+      badge.onclick = function () { toggleDropdown(this); };
+
+      item.dataset.status = novoStatus;
+      wrap.querySelector('.status-dropdown').classList.remove('status-dropdown--open');
+
+      recalcularContadores(); 
+    }
+  </script>
+</body>
+
 </html>

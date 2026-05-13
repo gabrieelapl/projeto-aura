@@ -32,7 +32,6 @@ os.makedirs(ARTIGOS_FOLDER, exist_ok=True)
 
 # ROTAS
 
-# substituir pelo bd dps
 def get_projetos():
     return session.get('projetos', [])
 
@@ -72,40 +71,57 @@ def cadastro():
     return render_template('cadastro.html')
 
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         email = request.form.get('email', '').strip()
+#         senha = request.form.get('senha', '').strip()
+
+#         if not email or not senha:
+#             return render_template('login.html', erro='Preencha todos os campos.')
+
+#         usuario = Usuario.query.filter_by(email=email).first()
+
+#         if not usuario:
+#             return render_template('login.html', erro='Usuário não encontrado.')
+#         if usuario.senha != senha:
+#             return render_template('login.html', erro='Senha incorreta.')
+
+#         session['usuario_id'] = usuario.id
+#         session['usuario'] = usuario.email
+#         session['nome'] = usuario.nome
+#         session['bio'] = usuario.bio or ''
+#         session['foto'] = usuario.foto or ''
+
+#         meses = {
+#             'January': 'janeiro', 'February': 'fevereiro', 'March': 'março',
+#             'April': 'abril', 'May': 'maio', 'June': 'junho',
+#             'July': 'julho', 'August': 'agosto', 'September': 'setembro',
+#             'October': 'outubro', 'November': 'novembro', 'December': 'dezembro'
+#         }
+#         data = usuario.data_cadastro.strftime('%d de %B de %Y')
+#         for en, pt in meses.items():
+#             data = data.replace(en, pt)
+#         session['membro_desde'] = data
+
+#         return redirect(url_for('index'))
+
+#     return render_template('login.html')
+
+# USUARIO MOCKADO P USAR NA FETEC
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         senha = request.form.get('senha', '').strip()
 
-        if not email or not senha:
-            return render_template('login.html', erro='Preencha todos os campos.')
-
-        usuario = Usuario.query.filter_by(email=email).first()
-
-        if not usuario:
-            return render_template('login.html', erro='Usuário não encontrado.')
-        if usuario.senha != senha:
-            return render_template('login.html', erro='Senha incorreta.')
-
-        session['usuario_id'] = usuario.id
-        session['usuario'] = usuario.email
-        session['nome'] = usuario.nome
-        session['bio'] = usuario.bio or ''
-        session['foto'] = usuario.foto or ''
-
-        meses = {
-            'January': 'janeiro', 'February': 'fevereiro', 'March': 'março',
-            'April': 'abril', 'May': 'maio', 'June': 'junho',
-            'July': 'julho', 'August': 'agosto', 'September': 'setembro',
-            'October': 'outubro', 'November': 'novembro', 'December': 'dezembro'
-        }
-        data = usuario.data_cadastro.strftime('%d de %B de %Y')
-        for en, pt in meses.items():
-            data = data.replace(en, pt)
-        session['membro_desde'] = data
-
-        return redirect(url_for('index'))
+        if email == "admin@teste.com" and senha == "123456":
+            session['usuario_id'] = 1
+            session['usuario'] = email
+            session['nome'] = "gabi lino"
+            return redirect(url_for('index'))
+        else:
+            return render_template('login.html', erro='E-mail ou senha de teste incorretos.')
 
     return render_template('login.html')
 
@@ -223,7 +239,15 @@ def upload():
         session['artigo_caminho'] = caminho
 
     projetos = get_projetos()
+    meses = {
+        'January':'janeiro','February':'fevereiro','March':'março',
+        'April':'abril','May':'maio','June':'junho',
+        'July':'julho','August':'agosto','September':'setembro',
+        'October':'outubro','November':'novembro','December':'dezembro'
+    }
     data_hoje = datetime.now().strftime('%d de %B de %Y')
+    for en, pt in meses.items():
+        data_hoje = data_hoje.replace(en, pt)
 
     if projeto_tipo == 'novo':
         # Nome do projeto vem do campo de texto — NUNCA do PDF
