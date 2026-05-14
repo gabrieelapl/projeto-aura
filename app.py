@@ -9,7 +9,7 @@ import uuid
 from datetime import datetime
 import requests
 from huggingface_hub import InferenceClient
-import fitz #pymupdf
+import pymupdf as fitz
 
 load_dotenv()
 
@@ -346,10 +346,12 @@ def resumo():
 
 @app.route('/api/resumo', methods=['POST'])
 def api_resumo():
+
     if 'usuario_id' not in session:
         return {'erro': 'Não autorizado'}, 401
 
     caminho = session.get('artigo_caminho')
+
     if not caminho or not os.path.exists(caminho):
         return {'erro': 'Nenhum artigo encontrado. Faça o upload novamente.'}, 400
 
@@ -371,10 +373,12 @@ def api_resumo():
         {
             'role': 'system',
             'content': (
-                'Você é um assistente acadêmico especializado em revisão sistemática. '
-                'Gere um resumo detalhado em português do texto científico fornecido. '
-                'O resumo deve conter: objetivo do estudo, metodologia, principais resultados e conclusão. '
-                'Use linguagem clara e acessível para estudantes universitários.'
+               'Você é um assistente acadêmico especializado em revisão sistemática. '
+                'Leia o artigo científico completo e gere um resumo fluido e contínuo em português, '
+                'sem dividir em tópicos ou seções. O resumo deve apresentar de forma integrada: '
+                'o contexto e objetivo do estudo, a metodologia utilizada, os principais resultados '
+                'encontrados e as conclusões dos autores. Escreva em parágrafos corridos, com linguagem '
+                'clara e acessível para estudantes universitários. Seja completo e detalhado.'
             )
         },
         {
@@ -394,6 +398,7 @@ def api_resumo():
         )
 
         resumo_texto = result.choices[0].message.content.strip()
+        session['resumo_gerado'] = resumo_texto
         return {'resumo': resumo_texto}
 
     except Exception as e:
@@ -402,12 +407,60 @@ def api_resumo():
 
 # gerar audio
 
+AUDIO_FOLDER = os.path.join('static', 'uploads', 'audio')
+os.makedirs(AUDIO_FOLDER, exist_ok=True)
 
 @app.route('/audio')
 def audio():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
     return render_template('audio.html')
+
+
+@app.route('/api/audio', methods=['POST'])
+def api_audio():
+    if 'usuario_id' not in session:
+        return {'erro': 'Não autorizado'}, 401
+
+    resumo = session.get('resumo_gerado')
+    if not resumo:
+        return {'erro': 'Nenhum resumo encontrado. Gere o resumo primeiro.'}, 400
+
+    api_key = os.getenv('ELEVENLABS_API_KEY')
+    voice_id = 'pNInz6obpgDQGcFmaJgB'  # voz "Adam" — gratuita
+
+    url = f'https://api.elevenlabs.io/v1/text-to-speech/{voice_id}'
+    headers = {
+        'xi-api-key': api_key,
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        'text': resumo,
+        'model_id': 'eleven_multilingual_v2',
+        'voice_settings': {
+            'stability': 0.5,
+            'similarity_boost': 0.75
+        }
+    }
+
+    try:
+        resp = requests.post(url, headers=headers, json=payload, timeout=60)
+
+        if resp.status_code != 200:
+            print("ERRO ELEVENLABS:", resp.text)
+            return {'erro': f'Erro da API: {resp.status_code}'}, 500
+
+        # Salva o áudio
+        nome_audio = f"audio_{session['usuario_id']}.mp3"
+        caminho    = os.path.join(AUDIO_FOLDER, nome_audio)
+        with open(caminho, 'wb') as f:
+            f.write(resp.content)
+
+        return {'audio_url': f'/static/uploads/audio/{nome_audio}'}
+
+    except Exception as e:
+        print("ERRO:", str(e))
+        return {'erro': f'Erro ao gerar áudio: {str(e)}'}, 500
 
 # citações
 

@@ -1,96 +1,77 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AURA</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/resumo.css') }}"
-    />
-  </head>
-  <body>
-    <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
-    </a>
 
-    <main class="resumo-page">
-      <div class="resumo-card">
-        <div class="resumo-card__header">
-          <h1 class="resumo-titulo">Gerar Resumo</h1>
-          <button class="btn-copiar" id="btn-copiar">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-              <path
-                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-              />
-            </svg>
-            <span id="btn-copiar-texto">Copiar</span>
-          </button>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/resumo.css') }}" />
+</head>
 
-        <div class="resumo-conteudo">
-          <h2 class="resumo-subtitulo">Resumo</h2>
-          <div class="resumo-texto" id="resumo-texto">
-            
-          </div>
+<body>
+  <a href="javascript:history.back()" class="back-arrow" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  </a>
+
+  <main class="resumo-page">
+    <div class="resumo-card">
+      <div class="resumo-card__header">
+        <h1 class="resumo-titulo">Gerar Resumo</h1>
+        <button class="btn-copiar" id="btn-copiar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+          <span id="btn-copiar-texto">Copiar</span>
+        </button>
+      </div>
+
+      <div class="resumo-conteudo" id="resumo-conteudo">
+        <h2 class="resumo-subtitulo">Resumo</h2>
+        <div class="resumo-texto" id="resumo-texto">
+
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <script>
-      const btnCopiar = document.getElementById("btn-copiar");
-      const btnTexto = document.getElementById("btn-copiar-texto");
+  <script>
+    const btnCopiar = document.getElementById("btn-copiar");
+    const btnTexto = document.getElementById("btn-copiar-texto");
 
-      btnCopiar.addEventListener("click", () => {
-        const texto = document.getElementById("resumo-texto");
-        if (!texto) return;
-        navigator.clipboard.writeText(texto.innerText).then(() => {
-          btnTexto.textContent = "Copiado!";
-          btnCopiar.classList.add("btn-copiar--copiado");
-          setTimeout(() => {
-            btnTexto.textContent = "Copiar";
-            btnCopiar.classList.remove("btn-copiar--copiado");
-          }, 2000);
-        });
+    btnCopiar.addEventListener("click", () => {
+      const texto = document.getElementById("resumo-texto");
+      if (!texto) return;
+      navigator.clipboard.writeText(texto.innerText).then(() => {
+        btnTexto.textContent = "Copiado!";
+        btnCopiar.classList.add("btn-copiar--copiado");
+        setTimeout(() => {
+          btnTexto.textContent = "Copiar";
+          btnCopiar.classList.remove("btn-copiar--copiado");
+        }, 2000);
       });
+    });
 
-      // Gera o resumo automaticamente ao carregar a página
-      async function gerarResumo() {
-        const conteudo = document.getElementById("resumo-conteudo");
+    // Gera o resumo automaticamente ao carregar a página
+    async function gerarResumo() {
+      const conteudo = document.getElementById("resumo-conteudo");
 
-        conteudo.innerHTML = `
+      conteudo.innerHTML = `
       <div class="resumo-loading">
         <div class="resumo-loading__spinner"></div>
         <p>Gerando resumo com IA...</p>
       </div>`;
 
-        try {
-          const resp = await fetch("/api/resumo", { method: "POST" });
-          const data = await resp.json();
+      try {
+        const resp = await fetch("/api/resumo", { method: "POST" });
+        const data = await resp.json();
 
-          if (data.erro) {
-            conteudo.innerHTML = `
+        if (data.erro) {
+          conteudo.innerHTML = `
           <div class="resumo-erro">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"/>
@@ -99,17 +80,18 @@
             </svg>
             ${data.erro}
           </div>`;
-          } else {
-            conteudo.innerHTML = `
+        } else {
+          conteudo.innerHTML = `
           <h2 class="resumo-subtitulo">Resumo</h2>
           <div class="resumo-texto" id="resumo-texto">${data.resumo}</div>`;
-          }
-        } catch (err) {
-          conteudo.innerHTML = `<div class="resumo-erro">Erro ao conectar com o servidor.</div>`;
         }
+      } catch (err) {
+        conteudo.innerHTML = `<div class="resumo-erro">Erro ao conectar com o servidor.</div>`;
       }
+    }
 
-      gerarResumo();
-    </script>
-  </body>
+    gerarResumo();
+  </script>
+</body>
+
 </html>

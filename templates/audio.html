@@ -78,76 +78,100 @@
     </div>
   </main>
 
-  <script>
-    const btnPlay     = document.getElementById('btn-play');
-    const iconPlay    = document.getElementById('icon-play');
-    const iconPause   = document.getElementById('icon-pause');
-    const progress    = document.getElementById('audio-progress');
-    const tempoAtual  = document.getElementById('tempo-atual');
-    const audio       = document.getElementById('audio-element');
-    const speedBtns   = document.querySelectorAll('.speed-btn');
+<script>
+  const btnPlay    = document.getElementById('btn-play');
+  const iconPlay   = document.getElementById('icon-play');
+  const iconPause  = document.getElementById('icon-pause');
+  const progress   = document.getElementById('audio-progress');
+  const tempoAtual = document.getElementById('tempo-atual');
+  const speedBtns  = document.querySelectorAll('.speed-btn');
+  const audioEl    = document.getElementById('audio-element');
 
-    let playing   = false;
-    let mockTimer = null;
-    let mockTime  = 0;
-    const TOTAL   = 227; // 3:47 em segundos (mock)
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  }
 
-    function formatTime(s) {
-      const m = Math.floor(s / 60);
-      const sec = Math.floor(s % 60);
-      return `${m}:${sec.toString().padStart(2, '0')}`;
-    }
+  // Gera o áudio ao carregar
+  async function gerarAudio() {
+    btnPlay.disabled = true;
+    btnPlay.style.opacity = '0.5';
+    document.querySelector('.audio-artigo-titulo').textContent = 'Gerando áudio com IA...';
 
-    // Play/Pause mockado (sem áudio real ainda)
-    btnPlay.addEventListener('click', () => {
-      playing = !playing;
+    try {
+      const resp = await fetch('/api/audio', { method: 'POST' });
+      const data = await resp.json();
 
-      if (playing) {
-        iconPlay.style.display  = 'none';
-        iconPause.style.display = 'block';
-        btnPlay.classList.add('btn-play--playing');
-
-        // simula progresso
-        mockTimer = setInterval(() => {
-          if (mockTime >= TOTAL) {
-            clearInterval(mockTimer);
-            playing = false;
-            iconPlay.style.display  = 'block';
-            iconPause.style.display = 'none';
-            btnPlay.classList.remove('btn-play--playing');
-            mockTime = 0;
-            progress.value = 0;
-            tempoAtual.textContent = '0:00';
-            return;
-          }
-          mockTime++;
-          progress.value = mockTime;
-          tempoAtual.textContent = formatTime(mockTime);
-        }, 1000);
-
-      } else {
-        iconPlay.style.display  = 'block';
-        iconPause.style.display = 'none';
-        btnPlay.classList.remove('btn-play--playing');
-        clearInterval(mockTimer);
+      if (data.erro) {
+        document.querySelector('.audio-artigo-titulo').textContent = '⚠ ' + data.erro;
+        return;
       }
-    });
 
-    // Scrubbing na barra
-    progress.addEventListener('input', () => {
-      mockTime = parseInt(progress.value);
-      tempoAtual.textContent = formatTime(mockTime);
-    });
+      audioEl.src = data.audio_url;
+      audioEl.load();
+      document.querySelector('.audio-artigo-titulo').textContent = '{{ session.get("artigo_nome", "Resumo do artigo") }}';
+      btnPlay.disabled = false;
+      btnPlay.style.opacity = '1';
 
-    // Velocidade
-    speedBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        speedBtns.forEach(b => b.classList.remove('speed-btn--active'));
-        btn.classList.add('speed-btn--active');
-        // audio.playbackRate = parseFloat(btn.dataset.speed); // ativar com API real
+      // Atualiza duração
+      audioEl.addEventListener('loadedmetadata', () => {
+        progress.max = Math.floor(audioEl.duration);
+        document.querySelector('.audio-time span:last-child').textContent = formatTime(audioEl.duration);
       });
+
+    } catch (err) {
+      document.querySelector('.audio-artigo-titulo').textContent = 'Erro ao conectar com o servidor.';
+    }
+  }
+
+  // Play / Pause
+  btnPlay.addEventListener('click', () => {
+    if (audioEl.paused) {
+      audioEl.play();
+      iconPlay.style.display  = 'none';
+      iconPause.style.display = 'block';
+      btnPlay.classList.add('btn-play--playing');
+    } else {
+      audioEl.pause();
+      iconPlay.style.display  = 'block';
+      iconPause.style.display = 'none';
+      btnPlay.classList.remove('btn-play--playing');
+    }
+  });
+
+  // Progresso
+  audioEl.addEventListener('timeupdate', () => {
+    progress.value = Math.floor(audioEl.currentTime);
+    tempoAtual.textContent = formatTime(audioEl.currentTime);
+    const pct = (audioEl.currentTime / audioEl.duration) * 100;
+    progress.style.setProperty('--progress', pct + '%');
+  });
+
+  progress.addEventListener('input', () => {
+    audioEl.currentTime = progress.value;
+  });
+
+  // Ao terminar
+  audioEl.addEventListener('ended', () => {
+    iconPlay.style.display  = 'block';
+    iconPause.style.display = 'none';
+    btnPlay.classList.remove('btn-play--playing');
+    progress.value = 0;
+    tempoAtual.textContent = '0:00';
+  });
+
+  // Velocidade
+  speedBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      speedBtns.forEach(b => b.classList.remove('speed-btn--active'));
+      btn.classList.add('speed-btn--active');
+      audioEl.playbackRate = parseFloat(btn.dataset.speed);
     });
-  </script>
+  });
+
+  gerarAudio();
+</script>
 
 </body>
 </html>
