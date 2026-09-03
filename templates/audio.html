@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/audio.css') }}"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar__container">
+        <a href="#" class="navbar__logo">
+          <img
+            src="{{ url_for('static', filename='img/logo-roxo.png') }}"
+            alt="AURA"
+            class="navbar__logo-img"
+          />
+        </a>
+        <nav class="navbar__nav" id="nav-menu">
+          <a href="/#projetos" class="navbar__link">Projetos</a>
+          <a href="/#sobre-aura" class="navbar__link">Sobre</a>
+          <a href="/#sobre-nos" class="navbar__link">Equipe</a>
+          <a href="/#contato" class="navbar__link">Contato</a>
+          <a href="{{ url_for('perfil') }}" class="navbar__link">Perfil</a>
+        </nav>
+        <button
+          class="navbar__hamburger"
+          id="hamburger"
+          aria-label="Abrir menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="audio-page">
+      <div class="audio-card">
+        <h1 class="audio-titulo">Ouvir resumo em áudio</h1>
+
+        <div class="audio-player">
+          <div class="audio-info">
+            <h2 class="audio-artigo-titulo"></h2>
+          </div>
+
+          <div class="audio-controls">
+            <button class="btn-play" id="btn-play" aria-label="Play">
+              <svg
+                id="icon-play"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="white"
+                stroke="none"
+              >
+                <polygon points="5,3 19,12 5,21" />
+              </svg>
+              <svg
+                id="icon-pause"
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="white"
+                stroke="none"
+                style="display: none"
+              >
+                <rect x="6" y="4" width="4" height="16" rx="1" />
+                <rect x="14" y="4" width="4" height="16" rx="1" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="audio-progress-wrap">
+            <input
+              type="range"
+              class="audio-progress"
+              id="audio-progress"
+              min="0"
+              max="227"
+              value="0"
+              step="1"
+            />
+            <div class="audio-time">
+              <span id="tempo-atual">0:00</span>
+              <span>3:47</span>
+            </div>
+          </div>
+
+          <div class="audio-speeds">
+            <button class="speed-btn" data-speed="0.75">0.75x</button>
+            <button class="speed-btn speed-btn--active" data-speed="1">
+              1x
+            </button>
+            <button class="speed-btn" data-speed="1.25">1.25x</button>
+            <button class="speed-btn" data-speed="1.5">1.5x</button>
+          </div>
+
+          <p class="audio-aviso">
+            O reprodutor de áudio permanecerá ativo na parte inferior da tela<br />
+            enquanto você navega entre as funções.
+          </p>
+
+          <audio id="audio-element" preload="none"></audio>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const btnPlay = document.getElementById("btn-play");
+      const iconPlay = document.getElementById("icon-play");
+      const iconPause = document.getElementById("icon-pause");
+      const progress = document.getElementById("audio-progress");
+      const tempoAtual = document.getElementById("tempo-atual");
+      const speedBtns = document.querySelectorAll(".speed-btn");
+      const audioEl = document.getElementById("audio-element");
+
+      function formatTime(s) {
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return `${m}:${sec.toString().padStart(2, "0")}`;
+      }
+
+      // Gera o áudio ao carregar
+      async function gerarAudio() {
+        btnPlay.disabled = true;
+        btnPlay.style.opacity = "0.5";
+        document.querySelector(".audio-artigo-titulo").textContent =
+          "Gerando áudio com IA...";
+
+        try {
+          const resp = await fetch("/api/audio", { method: "POST" });
+          const data = await resp.json();
+
+          if (data.erro) {
+            document.querySelector(".audio-artigo-titulo").textContent =
+              "⚠ " + data.erro;
+            return;
+          }
+
+          audioEl.src = data.audio_url;
+          audioEl.load();
+          document.querySelector(".audio-artigo-titulo").textContent =
+            '{{ session.get("artigo_nome", "Resumo do artigo") }}';
+          btnPlay.disabled = false;
+          btnPlay.style.opacity = "1";
+
+          // Atualiza duração
+          audioEl.addEventListener("loadedmetadata", () => {
+            progress.max = Math.floor(audioEl.duration);
+            document.querySelector(".audio-time span:last-child").textContent =
+              formatTime(audioEl.duration);
+          });
+        } catch (err) {
+          document.querySelector(".audio-artigo-titulo").textContent =
+            "Erro ao conectar com o servidor.";
+        }
+      }
+
+      // Play / Pause
+      btnPlay.addEventListener("click", () => {
+        if (audioEl.paused) {
+          audioEl.play();
+          iconPlay.style.display = "none";
+          iconPause.style.display = "block";
+          btnPlay.classList.add("btn-play--playing");
+        } else {
+          audioEl.pause();
+          iconPlay.style.display = "block";
+          iconPause.style.display = "none";
+          btnPlay.classList.remove("btn-play--playing");
+        }
+      });
+
+      // Progresso
+      audioEl.addEventListener("timeupdate", () => {
+        progress.value = Math.floor(audioEl.currentTime);
+        tempoAtual.textContent = formatTime(audioEl.currentTime);
+        const pct = (audioEl.currentTime / audioEl.duration) * 100;
+        progress.style.setProperty("--progress", pct + "%");
+      });
+
+      progress.addEventListener("input", () => {
+        audioEl.currentTime = progress.value;
+      });
+
+      audioEl.addEventListener("ended", () => {
+        iconPlay.style.display = "block";
+        iconPause.style.display = "none";
+        btnPlay.classList.remove("btn-play--playing");
+        progress.value = 0;
+        tempoAtual.textContent = "0:00";
+      });
+
+      // Velocidade
+      speedBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          speedBtns.forEach((b) => b.classList.remove("speed-btn--active"));
+          btn.classList.add("speed-btn--active");
+          audioEl.playbackRate = parseFloat(btn.dataset.speed);
+        });
+      });
+
+      gerarAudio();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+venv/
+.env
+aura_db.sql
+__pycache__/
+.flask_session/

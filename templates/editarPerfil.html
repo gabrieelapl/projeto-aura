@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/editarPerfil.css') }}"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar__container">
+        <a href="#" class="navbar__logo">
+          <img
+            src="{{ url_for('static', filename='img/logo-roxo.png') }}"
+            alt="AURA"
+            class="navbar__logo-img"
+          />
+        </a>
+        <nav class="navbar__nav" id="nav-menu">
+          <a href="/#projetos" class="navbar__link">Projetos</a>
+          <a href="/#sobre-aura" class="navbar__link">Sobre</a>
+          <a href="/#sobre-nos" class="navbar__link">Equipe</a>
+          <a href="/#contato" class="navbar__link">Contato</a>
+          <a href="{{ url_for('perfil') }}" class="navbar__link">Perfil</a>
+        </nav>
+        <button
+          class="navbar__hamburger"
+          id="hamburger"
+          aria-label="Abrir menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="editar-page">
+      <div class="editar-card">
+        <h1 class="editar-titulo">Perfil</h1>
+
+        <form
+          method="POST"
+          action="/editarPerfil"
+          enctype="multipart/form-data"
+          id="form-editar"
+        >
+          <input
+            type="file"
+            id="input-foto"
+            name="foto"
+            accept="image/*"
+            style="display: none"
+          />
+
+          <div class="editar-avatar-wrap">
+            <div class="editar-avatar">
+              {% if session.get('foto') %}
+              <img
+                src="{{ url_for('static', filename='img/fotos/' + session.get('foto')) }}"
+                alt="Foto de perfil"
+              />
+              {% else %}
+              <svg
+                viewBox="0 0 80 80"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="40" cy="40" r="40" fill="#e0e0e0" />
+                <circle cx="40" cy="30" r="14" fill="#b0b0b0" />
+                <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0" />
+              </svg>
+              {% endif %}
+              <img
+                id="foto-preview"
+                src=""
+                alt="Preview"
+                style="display: none"
+              />
+            </div>
+            <button type="button" class="btn-mudar-foto" id="btn-mudar-foto">
+              Mudar foto
+            </button>
+          </div>
+
+          {% if erro %}
+          <div class="editar-erro">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#c0392b"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            {{ erro }}
+          </div>
+          {% endif %} {% if sucesso %}
+          <div class="editar-sucesso">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#2e7d32"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="9 12 11 14 15 10" />
+            </svg>
+            {{ sucesso }}
+          </div>
+          {% endif %}
+
+          <div class="editar-campo">
+            <label class="editar-label">Nome de usuário</label>
+            <input
+              type="text"
+              name="nome"
+              class="editar-input"
+              placeholder="Digite aqui o seu nome de usuário"
+              value="{{ session.get('nome', '') }}"
+            />
+          </div>
+
+          <div class="editar-campo">
+            <label class="editar-label">Bio</label>
+            <textarea
+              name="bio"
+              class="editar-textarea"
+              placeholder="Digite aqui a sua bio"
+              rows="5"
+            >
+{{ session.get('bio', '') }}</textarea
+            >
+          </div>
+
+          <button type="submit" class="btn-editar">Editar</button>
+        </form>
+      </div>
+    </main>
+
+    <script>
+      const inputFoto = document.getElementById("input-foto");
+      const btnFoto = document.getElementById("btn-mudar-foto");
+      const preview = document.getElementById("foto-preview");
+      const avatarSvg = document.querySelector(".editar-avatar svg");
+      const avatarImg = document.querySelector(
+        ".editar-avatar img:not(#foto-preview)",
+      );
+
+      btnFoto.addEventListener("click", () => inputFoto.click());
+
+      inputFoto.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+          if (avatarSvg) avatarSvg.style.display = "none";
+          if (avatarImg) avatarImg.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document
+        .getElementById("form-editar")
+        .addEventListener("submit", function (e) {
+          const nome = document
+            .querySelector('input[name="nome"]')
+            .value.trim();
+          if (!nome) {
+            e.preventDefault();
+            alert("O nome de usuário não pode estar vazio.");
+          }
+        });
+    </script>
+  </body>
+</html>

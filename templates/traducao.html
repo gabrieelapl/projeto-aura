@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/traducao.css') }}"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar__container">
+        <a href="#" class="navbar__logo">
+          <img
+            src="{{ url_for('static', filename='img/logo-roxo.png') }}"
+            alt="AURA"
+            class="navbar__logo-img"
+          />
+        </a>
+        <nav class="navbar__nav" id="nav-menu">
+          <a href="/#projetos" class="navbar__link">Projetos</a>
+          <a href="/#sobre-aura" class="navbar__link">Sobre</a>
+          <a href="/#sobre-nos" class="navbar__link">Equipe</a>
+          <a href="/#contato" class="navbar__link">Contato</a>
+          <a href="{{ url_for('perfil') }}" class="navbar__link">Perfil</a>
+        </nav>
+        <button
+          class="navbar__hamburger"
+          id="hamburger"
+          aria-label="Abrir menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="traducao-page">
+      <div class="traducao-card">
+        <div class="traducao-card__header">
+          <h1 class="traducao-titulo">Tradutor técnico</h1>
+          <button class="btn-copiar" id="btn-copiar">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              />
+            </svg>
+            <span id="btn-copiar-texto">Copiar</span>
+          </button>
+        </div>
+
+        <div class="traducao-colunas">
+          <!-- Texto original -->
+          <div class="traducao-col">
+            <label class="traducao-col__label">Texto original</label>
+            <textarea
+              class="traducao-textarea"
+              id="texto-original"
+              placeholder="Cole aqui o texto técnico que deseja traduzir..."
+            >
+            </textarea>
+          </div>
+
+          <div class="traducao-col">
+            <label class="traducao-col__label">Tradução</label>
+            <div class="traducao-resultado" id="traducao-resultado">
+              A tradução aparecerá aqui...
+            </div>
+          </div>
+        </div>
+
+        <div class="traducao-footer">
+          <button class="btn-traduzir" id="btn-traduzir">Traduzir</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const btnCopiar = document.getElementById("btn-copiar");
+      const btnTexto = document.getElementById("btn-copiar-texto");
+
+      btnCopiar.addEventListener("click", () => {
+        const texto = document.getElementById("traducao-resultado").innerText;
+        if (!texto || texto === "A tradução aparecerá aqui...") return;
+        navigator.clipboard.writeText(texto).then(() => {
+          btnTexto.textContent = "Copiado!";
+          btnCopiar.classList.add("btn-copiar--copiado");
+          setTimeout(() => {
+            btnTexto.textContent = "Copiar";
+            btnCopiar.classList.remove("btn-copiar--copiado");
+          }, 2000);
+        });
+      });
+
+      document
+        .getElementById("btn-traduzir")
+        .addEventListener("click", async () => {
+          const texto = document.getElementById("texto-original").value.trim();
+          const resultado = document.getElementById("traducao-resultado");
+          const btn = document.getElementById("btn-traduzir");
+
+          if (!texto) {
+            resultado.innerHTML =
+              '<span style="color:#c0392b;">Cole um texto no campo ao lado.</span>';
+            return;
+          }
+
+          btn.disabled = true;
+          btn.textContent = "Traduzindo...";
+          resultado.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; gap:1rem; padding:2rem 0; color:#aaa;">
+        <div class="traducao-spinner"></div>
+        <span style="font-family:'Tommy-Light'; font-size:0.88rem;">Processando com IA...</span>
+      </div>`;
+
+          try {
+            const resp = await fetch("/api/traduzir", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ texto }),
+            });
+
+            const data = await resp.json();
+
+            if (data.erro) {
+              resultado.innerHTML = `<span style="color:#c0392b;">⚠ ${data.erro}</span>`;
+            } else {
+              resultado.textContent = data.traducao;
+            }
+          } catch (err) {
+            resultado.innerHTML =
+              '<span style="color:#c0392b;">Erro ao conectar com o servidor.</span>';
+          } finally {
+            btn.disabled = false;
+            btn.textContent = "Traduzir";
+          }
+        });
+    </script>
+  </body>
+</html>
