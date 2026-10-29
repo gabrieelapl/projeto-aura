@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>AURA</title>
+    <title>AURA - Login</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/login.css') }}"
@@ -69,42 +69,13 @@
         required
       />
 
-      <button class="btn-login">Login</button>
+      <button class="btn-login" type="submit">Login</button>
 
       <p class="txt-cadastro">
         Novo por aqui? <a href="/cadastro">Cadastre-se!</a>
       </p>
     </form>
 
-    <script>
-      document.querySelector("form").addEventListener("submit", function (e) {
-        const email = document
-          .querySelector('input[name="email"]')
-          .value.trim();
-        const senha = document
-          .querySelector('input[name="senha"]')
-          .value.trim();
-        const erro = document.querySelector(".erro-login");
-
-        if (!email || !senha) {
-          e.preventDefault();
-          erro.textContent = "Preencha todos os campos.";
-          return;
-        }
-
-        const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        if (!emailValido) {
-          e.preventDefault();
-          erro.textContent = "Digite um e-mail válido.";
-          return;
-        }
-
-        if (senha.length < 4) {
-          e.preventDefault();
-          erro.textContent = "A senha deve ter pelo menos 4 caracteres.";
-          return;
-        }
-      });
-    </script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
   </body>
 </html>

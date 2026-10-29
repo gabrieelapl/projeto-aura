@@ -80,7 +80,7 @@
         </div>
         {% endif %}
 
-        <form method="POST" action="/alterar-senha" id="form-senha">
+        <form method="POST" action="{{ url_for('alterarSenha') }}" id="form-senha">
           <div class="senha-campo">
             <label class="senha-label">Senha atual</label>
             <input
@@ -121,33 +121,6 @@
       </div>
     </main>
 
-    <script>
-      document
-        .getElementById("form-senha")
-        .addEventListener("submit", function (e) {
-          const atual = document
-            .querySelector('input[name="senha_atual"]')
-            .value.trim();
-          const nova = document.getElementById("nova_senha").value.trim();
-          const confirmar = document
-            .getElementById("confirmar_senha")
-            .value.trim();
-
-          if (!atual || !nova || !confirmar) {
-            e.preventDefault();
-            alert("Preencha todos os campos.");
-            return;
-          }
-          if (nova.length < 6) {
-            e.preventDefault();
-            alert("A nova senha deve ter pelo menos 6 caracteres.");
-            return;
-          }
-          if (nova !== confirmar) {
-            e.preventDefault();
-            alert("As senhas não coincidem.");
-          }
-        });
-    </script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
   </body>
 </html>

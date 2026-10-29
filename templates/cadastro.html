@@ -47,39 +47,6 @@
     </p>
   </form>
 
-  <script>
-    document.getElementById('form-cadastro').addEventListener('submit', function(e) {
-      const nome    = document.querySelector('input[name="nome"]').value.trim();
-      const email   = document.querySelector('input[name="email"]').value.trim();
-      const senha   = document.getElementById('senha').value.trim();
-
-      const erroExistente = document.querySelector('.erro-cadastro');
-      if (erroExistente) erroExistente.remove();
-
-      let mensagem = '';
-
-      if (!nome || !email || !senha) {
-        mensagem = 'Preencha todos os campos.';
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        mensagem = 'Digite um e-mail válido.';
-      } else if (senha.length < 6) {
-        mensagem = 'A senha deve ter pelo menos 6 caracteres.';
-      }
-
-      if (mensagem) {
-        e.preventDefault();
-        const div = document.createElement('div');
-        div.className = 'erro-cadastro';
-        div.innerHTML = `
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          ${mensagem}`;
-        document.querySelector('form').insertBefore(div, document.querySelector('label'));
-      }
-    });
-  </script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 </body>
 </html>

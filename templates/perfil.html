@@ -38,41 +38,6 @@
     </header>
 
     <main class="perfil-page">
-      <section class="perfil-card perfil-card--header">
-        <div class="perfil-avatar">
-          {% if session.get('foto') %}
-          <img
-            src="{{ url_for('static', filename='img/fotos/' + session.get('foto')) }}"
-            alt="Foto de perfil"
-          />
-          {% else %}
-          <svg
-            viewBox="0 0 80 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="40" cy="40" r="40" fill="#e0e0e0" />
-            <circle cx="40" cy="30" r="14" fill="#b0b0b0" />
-            <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0" />
-          </svg>
-          {% endif %}
-        </div>
-        <div class="perfil-header__info">
-          <h1 class="perfil-nome">{{ session.get('nome', 'Usuário') }}</h1>
-          <p class="perfil-email">
-            {{ session.get('usuario', 'email@exemplo.com') }}
-          </p>
-          {% if session.get('bio') %}
-          <p class="perfil-bio">{{ session.get('bio') }}</p>
-          {% endif %}
-          <a
-            href="{{ url_for('editarPerfil') }}"
-            class="btn-perfil btn-perfil--verde"
-            >Editar perfil</a
-          >
-        </div>
-      </section>
-
       <section class="perfil-card perfil-card--info">
         <h2 class="perfil-info__titulo">Informações da conta</h2>
         <p class="perfil-info__sub">
@@ -109,6 +74,41 @@
           <button class="btn-perfil btn-perfil--vermelho" id="btn-excluir">
             Excluir conta
           </button>
+        </div>
+      </section>
+
+      <section class="perfil-card perfil-card--header">
+        <div class="perfil-avatar">
+          {% if session.get('foto') %}
+          <img
+            src="{{ url_for('static', filename='img/fotos/' + session.get('foto')) }}"
+            alt="Foto de perfil"
+          />
+          {% else %}
+          <svg
+            viewBox="0 0 80 80"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="40" cy="40" r="40" fill="#e0e0e0" />
+            <circle cx="40" cy="30" r="14" fill="#b0b0b0" />
+            <ellipse cx="40" cy="70" rx="22" ry="16" fill="#b0b0b0" />
+          </svg>
+          {% endif %}
+        </div>
+        <div class="perfil-header__info">
+          <h1 class="perfil-nome">{{ session.get('nome', 'Usuário') }}</h1>
+          <p class="perfil-email">
+            {{ session.get('usuario', 'email@exemplo.com') }}
+          </p>
+          {% if session.get('bio') %}
+          <p class="perfil-bio">{{ session.get('bio') }}</p>
+          {% endif %}
+          <a
+            href="{{ url_for('editarPerfil') }}"
+            class="btn-perfil btn-perfil--verde"
+            >Editar perfil</a
+          >
         </div>
       </section>
     </main>
