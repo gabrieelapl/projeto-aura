@@ -42,7 +42,10 @@
 
         <div class="audio-player">
           <div class="audio-info">
-            <h2 class="audio-artigo-titulo"></h2>
+            <h2 id="titulo-audio" data-titulo="{{ artigo_nome }}">
+              {{ artigo_nome }}
+            </h2>
+            <p id="audio-status"></p>
           </div>
 
           <div class="audio-controls">
@@ -107,6 +110,6 @@
       </div>
     </main>
 
-  <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/audio.js') }}"></script>
   </body>
 </html>

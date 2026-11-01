@@ -458,7 +458,9 @@ def api_resumo():
 def audio():
     if 'usuario_id' not in session:
         return redirect(url_for('login'))
-    return render_template('audio.html')
+    return render_template(
+        'audio.html',
+        artigo_nome=session.get('artigo_nome', 'Resumo do artigo'))
 
 
 @app.route('/api/audio', methods=['POST'])
@@ -486,7 +488,7 @@ def api_audio():
     try:
         resp = requests.post(url, headers=headers, json=payload, timeout=60)
         if resp.status_code != 200:
-            return {'erro': f'Erro da API: {resp.status_code}'}, 500
+            return {'erro': f'Erro da API: {resp.status_code} - {resp.text[:300]}'}, 500
 
         nome_audio = f"audio_{session['usuario_id']}.mp3"
         caminho = os.path.join(AUDIO_FOLDER, nome_audio)

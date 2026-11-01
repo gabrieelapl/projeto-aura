@@ -11,40 +11,35 @@ function formatTime(s) {
   const sec = Math.floor(s % 60);
   return `${m}:${sec.toString().padStart(2, "0")}`;
 }
+const statusEl = document.getElementById("audio-status");
 
-// Gera o áudio ao carregar
 async function gerarAudio() {
   btnPlay.disabled = true;
   btnPlay.style.opacity = "0.5";
-  document.querySelector(".audio-artigo-titulo").textContent =
-    "Gerando áudio com IA...";
+  statusEl.textContent = "Gerando áudio com IA...";
+
+  audioEl.addEventListener("loadedmetadata", () => {
+    progress.max = Math.floor(audioEl.duration);
+    document.querySelector(".audio-time span:last-child").textContent =
+      formatTime(audioEl.duration);
+  });
 
   try {
     const resp = await fetch("/api/audio", { method: "POST" });
     const data = await resp.json();
 
     if (data.erro) {
-      document.querySelector(".audio-artigo-titulo").textContent =
-        "⚠ " + data.erro;
+      statusEl.textContent = "⚠ " + data.erro;
       return;
     }
 
-    audioEl.src = data.audio_url;
+    audioEl.src = data.audio_url + "?t=" + Date.now();
     audioEl.load();
-    document.querySelector(".audio-artigo-titulo").textContent =
-      '{{ session.get("artigo_nome", "Resumo do artigo") }}';
+    statusEl.textContent = "";
     btnPlay.disabled = false;
     btnPlay.style.opacity = "1";
-
-    // Atualiza duração
-    audioEl.addEventListener("loadedmetadata", () => {
-      progress.max = Math.floor(audioEl.duration);
-      document.querySelector(".audio-time span:last-child").textContent =
-        formatTime(audioEl.duration);
-    });
   } catch (err) {
-    document.querySelector(".audio-artigo-titulo").textContent =
-      "Erro ao conectar com o servidor.";
+    statusEl.textContent = "Erro ao conectar com o servidor.";
   }
 }
 
