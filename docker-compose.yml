@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: aura_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aura_dev_pass}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d aura_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-aura_dev_pass}@db:5432/aura_db
+      SECRET_KEY: ${SECRET_KEY:-troque-esta-chave}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY:-}
+    command: sh -c "flask db upgrade && gunicorn --bind 0.0.0.0:8000 --timeout 120 app:app"
+    volumes:
+      - uploads:/app/static/uploads
+      - fotos:/app/static/img/fotos
+      - sessions:/app/.flask_session
+
+volumes:
+  pgdata:
+  uploads:
+  fotos:
+  sessions:

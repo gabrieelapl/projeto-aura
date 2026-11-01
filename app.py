@@ -16,7 +16,7 @@ import re
 from html import escape as html_escape
 from pypdf import PdfReader
 
-load_dotenv(override=True)
+load_dotenv()
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
@@ -1094,7 +1094,8 @@ def api_traduzir():
         return {'erro': 'Texto muito longo. Máximo 3000 caracteres.'}, 400
 
     messages = [
-        {"role": "system", "content": "Você é um tradutor técnico acadêmico. Traduza o texto para português claro e acessível, mantendo a precisão científica. Retorne APENAS a tradução."},
+        {"role": "system", "content": "Você é um tradutor técnico acadêmico. Traduza o texto para português"
+         "claro e acessível, mantendo a precisão científica. Retorne APENAS a tradução."},
         {"role": "user", "content": texto}
     ]
 

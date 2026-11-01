@@ -1,0 +1,13 @@
+.venv
+venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.env
+.flask_session
+static/uploads
+build
+dist
+*.md
+.github

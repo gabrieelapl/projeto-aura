@@ -1,0 +1,6 @@
+line-length = 120
+extend-exclude = ["migrations", "venv", ".venv"]
+
+[lint]
+select = ["E", "F"]
+ignore = ["E501"]
