@@ -876,7 +876,7 @@ body::-webkit-scrollbar-thumb {
 
 .equipe__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .card-equipe {
@@ -947,11 +947,11 @@ body::-webkit-scrollbar-thumb {
   color: var(--roxo_vivo);
   margin: 0 0 10px;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .overlay p {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: var(--preto);
   text-align: left;
   font-family: "Tommy-Light";
